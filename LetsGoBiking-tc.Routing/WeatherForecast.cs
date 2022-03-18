@@ -1,4 +1,4 @@
-namespace LetsGoBiking_tc
+namespace LetsGoBiking_tc.Routing
 {
     public class WeatherForecast
     {

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace LetsGoBiking_tc.Controllers
+namespace LetsGoBiking_tc.Routing.Controllers
 {
     [ApiController]
     [Route("[controller]")]
