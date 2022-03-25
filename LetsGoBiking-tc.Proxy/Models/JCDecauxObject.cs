@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace LetsGoBiking_tc.Proxy.Models
 {
-    internal class JCDecauxObject
+    public class JCDecauxObject
     {
         public Station Station { get; set; }
 

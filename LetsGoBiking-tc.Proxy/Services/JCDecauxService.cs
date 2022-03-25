@@ -9,7 +9,7 @@ using LetsGoBiking_tc.Proxy.Services.Interfaces;
 
 namespace LetsGoBiking_tc.Proxy.Services
 {
-    internal class JCDecauxService : IJCDecauxService
+    public class JCDecauxService : IJCDecauxService
     {
         private static readonly string KEY = "station";
 
