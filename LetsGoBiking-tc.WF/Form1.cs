@@ -35,7 +35,15 @@ namespace LetsGoBiking_tc.WF
 
         private void BtnFindStationsByCityAndContractName_Click(object sender, EventArgs e)
         {
-
+            // get all stations with HTTP request in SOAP
+            var soapString = Helpers.Helpers.ConstructSoapRequest(0, 0);
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("SOAPAction", $"http://localhost:5157/api/LGBiking/{TxtCity.Text.ToLowerInvariant()}/{TxtContractName.Text.ToLowerInvariant()}");
+                var soapResponse = client.GetStringAsync("http://localhost:5157/api/LGBiking/{TxtCity.Text.ToLowerInvariant()}/{TxtContractName.Text.ToLowerInvariant()}").Result;
+                stations = Helpers.Helpers.ParseSoapResponse(soapResponse);
+                this.DtgStations.DataSource = stations;
+            }
         }
     }
 }
