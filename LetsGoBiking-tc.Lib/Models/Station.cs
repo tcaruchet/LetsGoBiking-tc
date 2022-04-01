@@ -34,7 +34,7 @@ namespace LetsGoBiking_tc.Lib.Models
         public string Status { get; set; }
 
         [JsonProperty("lastUpdate")]
-        public DateTime LastUpdate { get; set; }
+        public DateTime? LastUpdate { get; set; }
 
         [JsonProperty("connected")]
         public bool Connected { get; set; }

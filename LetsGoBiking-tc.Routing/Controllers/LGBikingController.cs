@@ -20,7 +20,7 @@ namespace LetsGoBiking_tc.Routing.Controllers
         //private readonly OpenStreetMapNomatim openStreetMapNomatim = new OpenStreetMapNomatim();
         //private readonly OpenRouteService openRouteService = new OpenRouteService();
 
-        private static readonly List<Station> Stations = EJCDecaux.GetStations().Result; //TODO: Update stations when specific ones are queried
+        private static List<Station> _stations = EJCDecaux.GetStations().Result; //TODO: Update stations when specific ones are queried
         private static readonly Dictionary<(DateTime, int), (string, int)> logs = new();
 
         private static readonly int THRESHOLD_AVAILABLE_BIKES = 2;
@@ -30,25 +30,26 @@ namespace LetsGoBiking_tc.Routing.Controllers
 
         // GET: api/<LGBikingController>
         [HttpGet]
-        public IEnumerable<Station> GetAllStations()
+        public async Task<IEnumerable<Station>> GetAllStations()
         {
-            return Stations;
+            _stations = await EJCDecaux.GetStations();
+            return _stations;
         }
 
-        [HttpGet]
+        [HttpGet("{city}/{stationNumber}")]
         public async Task<Station> GetStationInfos(string city, string stationNumber)
         {
             JCDecauxObject obj = await Proxy.GetJCDecauxItem(city, stationNumber);
             return obj.Station;
         }
 
-        [HttpGet]
+        [HttpGet("{latitude}/{longitude}")]
         public async Task<Station> FindNearestStation(double latitude, double longitude)
         {
             GeoCoordinate location = new GeoCoordinate(latitude, longitude);
             Station stationFound = null;
             double dist = double.MaxValue;
-            foreach (Station station in Stations)
+            foreach (Station station in _stations)
             {
                 if (location.GetDistanceTo(new GeoCoordinate(station.Position.Latitude, station.Position.Longitude)) >
                     dist)

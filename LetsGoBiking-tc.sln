@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LetsGoBiking-tc.Lib", "Lets
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LetsGoBiking-tc.Proxy", "LetsGoBiking-tc.Proxy\LetsGoBiking-tc.Proxy.csproj", "{ADC98DDC-40C3-4241-BA1D-3E93FC9A700D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LetsGoBiking-tc.WF", "LetsGoBiking-tc.WF\LetsGoBiking-tc.WF.csproj", "{8DB90D1A-623E-4F6F-BB85-2B599171886D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LetsGoBiking-tc.WF", "LetsGoBiking-tc.WF\LetsGoBiking-tc.WF.csproj", "{09F33CCA-8BCE-4CF3-9362-2CF69C9DA7A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{ADC98DDC-40C3-4241-BA1D-3E93FC9A700D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADC98DDC-40C3-4241-BA1D-3E93FC9A700D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADC98DDC-40C3-4241-BA1D-3E93FC9A700D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8DB90D1A-623E-4F6F-BB85-2B599171886D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8DB90D1A-623E-4F6F-BB85-2B599171886D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8DB90D1A-623E-4F6F-BB85-2B599171886D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8DB90D1A-623E-4F6F-BB85-2B599171886D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09F33CCA-8BCE-4CF3-9362-2CF69C9DA7A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09F33CCA-8BCE-4CF3-9362-2CF69C9DA7A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09F33CCA-8BCE-4CF3-9362-2CF69C9DA7A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09F33CCA-8BCE-4CF3-9362-2CF69C9DA7A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
