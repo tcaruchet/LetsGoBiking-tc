@@ -5,6 +5,7 @@ using LetsGoBiking_tc.Lib.Models;
 using LetsGoBiking_tc.Proxy.Models;
 using LetsGoBiking_tc.Proxy.Services;
 using LetsGoBiking_tc.Routing.Externals;
+using LetsGoBiking_tc.Routing.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -17,7 +18,7 @@ namespace LetsGoBiking_tc.Routing.Controllers
     {
         private static readonly EJCDecauxProxy Proxy = new();
 
-        //private readonly OpenStreetMapNomatim openStreetMapNomatim = new OpenStreetMapNomatim();
+        private readonly OSMapNomatim osMapNomatim = new();
         //private readonly OpenRouteService openRouteService = new OpenRouteService();
 
         private static List<Station> _stations = EJCDecaux.GetStations().Result; //TODO: Update stations when specific ones are queried
@@ -36,14 +37,14 @@ namespace LetsGoBiking_tc.Routing.Controllers
             return _stations;
         }
 
-        [HttpGet("{city}/{stationNumber}")]
+        [HttpGet("Stations/{city}/{stationNumber}")]
         public async Task<Station> GetStationInfos(string city, string stationNumber)
         {
             JCDecauxObject obj = await Proxy.GetJCDecauxItem(city, stationNumber);
             return obj.Station;
         }
 
-        [HttpGet("{latitude}/{longitude}")]
+        [HttpGet("Stations/Nearest/{latitude}/{longitude}")]
         public async Task<Station> FindNearestStation(double latitude, double longitude)
         {
             GeoCoordinate location = new GeoCoordinate(latitude, longitude);
@@ -72,5 +73,38 @@ namespace LetsGoBiking_tc.Routing.Controllers
 
             return stationFound;
         }
+
+        // OpenStreetMapNomatim
+        [HttpGet("Position/{address}")]
+        public async Task<Position> GetPosition(string address)
+        {
+            address = address.Trim();
+            if (address.Equals("null") || address.Equals(string.Empty))
+            {
+                return null;
+            }
+
+            List<Place> places = osMapNomatim.GetPlacesFromAddress(address).Result;
+            Place bestPlace = null;
+            double importance = double.MinValue;
+
+            foreach (Place place in places)
+            {
+                if (place.Importance > importance)
+                {
+                    bestPlace = place;
+                    importance = place.Importance;
+                }
+            }
+
+            return (bestPlace == null) ? null : new Position
+            {
+                Latitude = bestPlace.Latitude,
+                Longitude = bestPlace.Longitude
+            };
+        }
+
+        // OpenRouteService
+        
     }
 }
