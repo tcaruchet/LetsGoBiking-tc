@@ -5,7 +5,7 @@ namespace LetsGoBiking_tc.Routing.Externals
 {
     public class ORService
     {
-        private static readonly HttpClient client = new HttpClient();
+        private static readonly HttpClient client = new();
         private static readonly string API_KEY = "5b3ce3597851110001cf6248b0767c7d723a4189966a94487a346ca9";
 
         public async Task<string> PostDirections(string request, string data)
