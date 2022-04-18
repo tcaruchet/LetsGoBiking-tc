@@ -221,8 +221,10 @@ namespace LetsGoBiking_tc.Routing.Controllers
         private GeoJson GetPath(Position[] positions, string profile) => JsonConvert.DeserializeObject<GeoJson>(openRouteService.PostDirections(positions, profile).Result);
 
         //Logs
+        [HttpGet("Logs")]
         public Dictionary<(DateTime, int), (string, int)> GetLogs() => logs;
 
+        [HttpOptions("Logs/{days}")]
         public Dictionary<(DateTime, int), (string, int)> GetLogsByDays(int days) => logs.Where(log => DateTime.Compare(DateTime.Now.AddDays(days * -1), log.Key.Item1) < 0).ToDictionary(log => log.Key, log => log.Value);
     }
 }

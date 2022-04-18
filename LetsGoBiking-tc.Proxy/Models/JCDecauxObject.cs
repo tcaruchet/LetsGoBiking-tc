@@ -38,5 +38,20 @@ namespace LetsGoBiking_tc.Proxy.Models
             }
         }
 
+        public async Task<Station> UpdateStation(string specificRequest)
+        {
+            try
+            {
+                if (Station != null && !specificRequest.Contains(Station.Number.ToString()))
+                    throw new HttpRequestException("Station number does not match");
+                string response = await JCDecaux.Client.GetStringAsync(specificRequest);
+                Station = JsonConvert.DeserializeObject<Station>(response);
+                return Station ?? new Station();
+            }
+            catch (HttpRequestException)
+            {
+                return new Station();
+            }
+        }
     }
 }
