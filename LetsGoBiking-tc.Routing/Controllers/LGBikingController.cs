@@ -9,6 +9,7 @@ using LetsGoBiking_tc.Proxy.Models;
 using LetsGoBiking_tc.Proxy.Services;
 using LetsGoBiking_tc.Routing.Externals;
 using LetsGoBiking_tc.Routing.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
