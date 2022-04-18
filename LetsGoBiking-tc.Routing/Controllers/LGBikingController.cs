@@ -28,8 +28,9 @@ namespace LetsGoBiking_tc.Routing.Controllers
         private static List<Station> _stations = EJCDecaux.GetStations().Result; //TODO: Update stations when specific ones are queried
         private static readonly Dictionary<(DateTime, int), (string, int)> logs = new();
 
-        private static readonly int THRESHOLD_AVAILABLE_BIKES = 2;
-        private static readonly int THRESHOLD_AVAILABLE_BIKES_STANDS = 2;
+        private static readonly int THRESHOLD_AVAILABLE_BIKES = 2; //Nombre de vélos minimum pour que la station soit considérée comme disponible
+        private static readonly int THRESHOLD_AVAILABLE_BIKES_STANDS = 2; //Nombre de stands minimum pour que la station soit considérée comme disponible
+        private static readonly int MIN_DISTANCE_TO_STATION = 50; //Distance minimum d'arrêt de recherche : si station trouvée à moins de 50m, pas de recherche sup.
 
 
 
@@ -56,7 +57,7 @@ namespace LetsGoBiking_tc.Routing.Controllers
             double dist = double.MaxValue;
             foreach (Station station in _stations)
             {
-                if (location.GetDistanceTo(new GeoCoordinate(station.Position.Latitude, station.Position.Longitude)) >
+                if (location.GetDistanceTo(new GeoCoordinate(station.Position.Latitude, station.Position.Longitude)) <
                     dist)
                 {
                     JCDecauxObject tmp = await Proxy.GetJCDecauxItem(station.ContractName, station.Number.ToString());
@@ -66,6 +67,8 @@ namespace LetsGoBiking_tc.Routing.Controllers
                         stationFound = tmp.Station;
                         dist = location.GetDistanceTo(new GeoCoordinate(stationFound.Position.Latitude,
                             stationFound.Position.Longitude));
+                        if (dist < MIN_DISTANCE_TO_STATION)
+                            break;
                     }
                 }
             }
@@ -78,6 +81,8 @@ namespace LetsGoBiking_tc.Routing.Controllers
             return stationFound;
         }
 
+
+        //delete ?
         [HttpGet("Stations/Nearest/Start/{latitude}/{longitude}")]
         public Station FindNearestStationFromStart(double latitude, double longitude)
         {
@@ -170,7 +175,7 @@ namespace LetsGoBiking_tc.Routing.Controllers
         }
 
         // OpenRouteService
-        [HttpGet("Route/Path")]
+        [HttpPost("Route/Path")]
         public GeoJson GetPath(Position[] positions)
         {
             if (Array.Exists(positions, position => position == null))
