@@ -4,5 +4,5 @@ PORT = 8009
 Handler = http.server.SimpleHTTPRequestHandler
 
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
-	print("Server launched at ", PORT)
+	print("Server launched at http://localhost:" + PORT)
 	httpd.serve_forever()
