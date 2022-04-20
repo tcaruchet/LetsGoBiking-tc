@@ -207,65 +207,29 @@
 
             </a>
             <hr>
-            <ul class="nav nav-pills flex-column mb-auto">
+            <ul class="nav nav-pills flex-column">
                 <li class="nav-item">
                     <a href="#" class="nav-link active" aria-current="page">
-                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+                        <svg class="bi me-2" width="16" height="16"><use xlink:href="/"></use></svg>
                         Home
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="nav-link text-white">
-                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"></use></svg>
-                        Dashboard
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="nav-link text-white">
-                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
-                        Orders
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="nav-link text-white">
-                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
-                        Products
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="nav-link text-white">
-                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
-                        Customers
                     </a>
                 </li>
             </ul>
             <hr/>
-            <form action="">
-                <div id="struct_form">
-                    <!--             <div class="content_form_Origin">
-                        <label for="location">Origine</label>
-                        <input type="text" id="locationOrigin" />
-                    </div>
-                    <div class="content_form_Dest">
-                        <label for="location">Destination</label>
-                        <input type="text" id="locationDest" />
-                    </div> -->
-                    <div class="group">
-                        <label>Origine</label>
-                        <input class="input--text" type="text" id="locationOrigin" placeholder="Origine" required>
-                        <span class="highlight"></span>
-                        <span class="bar"></span>
-                    </div>
-                    <div class="group">
-                        <label>Destination</label>
-                        <input class="input--text" type="text" id="locationDest" placeholder="Destination" required>
-                        <span class="highlight"></span>
-                        <span class="bar"></span>
-                    </div>
+            <form action="" class="mb-auto">
+                <div class="form-group">
+                    <label for="locationOrigin">Départ</label>
+                    <input type="text" class="form-control" id="locationOrigin" placeholder="Lieu de départ">
                 </div>
+                <div class="form-group">
+                    <label for="locationDest">Destination</label>
+                    <input type="text" class="form-control" id="locationDest" placeholder="Lieu d'arrivée">
+                </div>
+            
+               
                 <div id="struct_validation">
                     <div class="content_button">
-                        <button onclick="PathComputing(event)" class="button">
+                        <button onclick="PathComputing(event)" class="button btn btn-primary">
                             <span class="submit">Go for it !</span>
                             <span class="loading"><i class="fa fa-refresh"></i></span>
                             <span class="check"><i class="fa fa-check"></i></span>
