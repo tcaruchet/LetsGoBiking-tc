@@ -83,7 +83,6 @@ namespace LetsGoBiking_tc.Routing.Controllers
         }
 
 
-        //delete ?
         [HttpGet("Stations/Nearest/Start/{latitude}/{longitude}")]
         public Station FindNearestStationFromStart(double latitude, double longitude)
         {
@@ -144,7 +143,7 @@ namespace LetsGoBiking_tc.Routing.Controllers
         [HttpGet("Stations/Around/{latitude}/{longitude}")]
         public async Task<List<Station>> FindStationsAround(double latitude, double longitude)
         {
-            //find all stations around 1 km radius from user position
+            //find all stations around 2 km radius from user position
             List<Station> stationsAround = new();
             GeoCoordinate userPosition = new GeoCoordinate(latitude, longitude);
 
@@ -152,17 +151,8 @@ namespace LetsGoBiking_tc.Routing.Controllers
             string city = await osMapNomatim.GetCity(latitude, longitude);
 
             foreach (Station station in _stations.Where(station => station.ContractName.Equals(city, StringComparison.InvariantCultureIgnoreCase)))
-            {
-                if (userPosition.GetDistanceTo(new GeoCoordinate(station.Position.Latitude, station.Position.Longitude)) < 1000)
-                {
-                    JCDecauxObject tmp = await Proxy.GetJCDecauxItem(station.ContractName, station.Number.ToString());
-                    if (tmp.Station.MainStands.Availabilities.Bikes >= THRESHOLD_AVAILABLE_BIKES &&
-                        tmp.Station.Status.Equals("OPEN", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        stationsAround.Add(tmp.Station);
-                    }
-                }
-            }
+                if (userPosition.GetDistanceTo(new GeoCoordinate(station.Position.Latitude, station.Position.Longitude)) < 2000)
+                    stationsAround.Add(station);
 
             return stationsAround;
         }
@@ -203,7 +193,7 @@ namespace LetsGoBiking_tc.Routing.Controllers
         [HttpPost("Route/Path")]
         public GeoJson GetPath(Position[] positions)
         {
-            if (Array.Exists(positions, position => position == null))
+            if (Array.Exists(positions, position => position == null) || positions.Length < 2)
             {
                 return null;
             }
@@ -233,7 +223,7 @@ namespace LetsGoBiking_tc.Routing.Controllers
         [HttpPost("Route/Path/Station")]
         public GeoJson GoToStation(Position[] positions)
         {
-            if (Array.Exists(positions, position => position == null))
+            if (Array.Exists(positions, position => position == null) || positions.Length < 2 )
                 return null;
             return GetPath(positions, "foot-walking");
         }
@@ -246,6 +236,49 @@ namespace LetsGoBiking_tc.Routing.Controllers
             headers.Add("Access-Control-Allow-Methods", "POST");
             headers.Add("Access-Control-Allow-Headers", "Content-Type");
         }
+
+
+        [HttpPost("Route/Path/Complete")]
+        public GeoJson GetPathComplete(Position[] positions)
+        {
+            if (Array.Exists(positions, position => position == null) || positions.Length < 2)
+                return null;
+
+            //find nearest station from positions[0]
+            Station nearestStationStart = FindNearestStationFromStart(positions[0].Latitude, positions[0].Longitude);
+            //find nearest station from positions[positions.Length - 1]
+            Station nearestStationEnd = FindNearestStationFromEnd(positions[positions.Length - 1].Latitude, positions[positions.Length - 1].Longitude);
+
+            //find path from nearestStationStart to positions[0] and to positions[positions.Length - 1] and then to nearestStationEnd
+            GeoJson pathStartToStation = GetPath(new Position[] { positions[0], new Position { Latitude = nearestStationStart.Position.Latitude, Longitude = nearestStationStart.Position.Longitude } }, "foot-walking");
+            GeoJson pathStationToStation = GetPath(new Position[] { new Position { Latitude = nearestStationStart.Position.Latitude, Longitude = nearestStationStart.Position.Longitude }, new Position { Latitude = nearestStationEnd.Position.Latitude, Longitude = nearestStationEnd.Position.Longitude } }, "cycling-regular");
+            GeoJson pathStationToEnd = GetPath(new Position[] { new Position { Latitude = nearestStationEnd.Position.Latitude, Longitude = nearestStationEnd.Position.Longitude }, positions[positions.Length - 1] }, "foot-walking");
+
+            //compute total distance
+            double totalDuration = pathStartToStation.features[0].properties.summary.duration + pathStationToStation.features[0].properties.summary.duration + pathStationToEnd.features[0].properties.summary.duration;
+
+            //get distance with full walk
+            GeoJson pathFullWalk = GetPath(positions, "foot-walking");
+            double totalDurationFullWalk = pathFullWalk.features[0].properties.summary.duration;
+
+            //combine paths
+            if (totalDurationFullWalk < totalDuration)
+            {
+                pathFullWalk.type = "foot-walking";
+                return pathFullWalk;
+            }
+
+            GeoJson path = new GeoJson();
+            path.type = "walking-cycling";
+            path.features = new List<Feature>();
+            path.features.Add(pathStartToStation.features[0]);
+            path.features.Add(pathStationToStation.features[0]);
+            path.features.Add(pathStationToEnd.features[0]);
+
+            return path;
+        }
+
+
 
         //Locals
         private GeoJson GetPath(Position[] positions, string profile) => JsonConvert.DeserializeObject<GeoJson>(openRouteService.PostDirections(positions, profile).Result);

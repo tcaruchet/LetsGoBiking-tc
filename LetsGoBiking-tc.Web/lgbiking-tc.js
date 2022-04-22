@@ -236,7 +236,7 @@ function computeRoute(addrFrom, addrTo) {
 
     //call http://localhost:5157/api/LGBiking/Route/Path with ajax
     $.ajax({
-        url: "http://localhost:5157/api/LGBiking/Route/Path",
+        url: "http://localhost:5157/api/LGBiking/Route/Path/Complete",
         type: "POST",
         data: JSON.stringify([
             {
@@ -256,8 +256,24 @@ function computeRoute(addrFrom, addrTo) {
             // pour draw la line, on va recup le res de l'appel vers l'API en prenant geometry -> coordinates et chaque pts representeront la line a tracer
             // var res = JSON.parse(data)
 
-            //En velo
-            drawLine(data["features"][0]["geometry"]["coordinates"], '#7700B3')
+            if(data["type"] === "foot-walking"){
+                //draw only foot walking
+                drawLine(data["features"][0]["geometry"]["coordinates"], '#7700B3')
+            }
+            else if (data["type"] === "walking-cycling"){
+                //draw only walking-cycling
+                // features[0] go from addrFrom to station start walking
+                drawLine(data["features"][0]["geometry"]["coordinates"], '#7700B3')
+                // features[1] go from station start to station end cycling
+                drawLine(data["features"][1]["geometry"]["coordinates"], '#00B3E6')
+                // features[2] go from station end to addrTo walking
+                drawLine(data["features"][2]["geometry"]["coordinates"], '#7700B3')
+            }
+            else{
+                //draw only cycling
+                drawLine(data["features"][0]["geometry"]["coordinates"], '#00B3E6')
+            }
+
             //get current position center of Map
             addMarkers(addrFrom)
         },
