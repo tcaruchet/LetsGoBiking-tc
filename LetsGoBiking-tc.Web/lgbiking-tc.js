@@ -163,6 +163,71 @@ function clearAllLayers() {
     })
 }
 
+function addMarkers(currentPositionMap){
+    //clearAllLayers()
+    //call ajax ttp://localhost:5157/api/LGBiking/Stations/Around/addrFrom/addrTo
+    $.ajax({
+        url: "http://localhost:5157/api/LGBiking/Stations/Around/" + currentPositionMap[0] + "/" + currentPositionMap[1],
+        type: "GET",
+        success: function (data) {
+            if(data === undefined || data === []) {
+                alert("Aucune station trouvée ici :(")
+            }
+            else{
+                var features = []
+                for(var i = 0; i < data.length; i++){
+                    var point = data[i];
+                    console.log(point)
+                    var longitude = point.position.longitude;                         //coordinates
+                    var latitude = point.position.latitude;
+                    /*....
+                    * now get your specific icon...('..../ic_customMarker.png')
+                    * by e.g. switch case...
+                    */
+
+                    //create Feature... with coordinates
+                    var iconFeature = new ol.Feature({
+                        geometry: new ol.geom.Point(ol.proj.transform([longitude, latitude], 'EPSG:4326',     
+                        'EPSG:3857'))
+                    });
+
+                    //create style for your feature...
+                    var iconStyle = new ol.style.Style({
+                        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+                        anchor: [0.5, 46],
+                        anchorXUnits: 'fraction',
+                        anchorYUnits: 'pixels',
+                        opacity: 0.75,
+                        src: "marker.png"
+                        }))
+                    });
+
+                    iconFeature.setStyle(iconStyle);
+                    features.push(iconFeature);
+                }
+                /*
+                * create vector source
+                * you could set the style for all features in your vectoreSource as well
+                */
+                var vectorSource = new ol.source.Vector({
+                    features: features      //add an array of features
+                    //,style: iconStyle     //to set the style for all your features...
+                });
+
+                var vectorLayer = new ol.layer.Vector({
+                    source: vectorSource
+                });
+                map.addLayer(vectorLayer);
+                console.log("markers added")
+            }
+        },
+        error: function (data) {
+            alert("Erreur lors de la requête pour chercher les stations.")
+        }   
+    });
+
+}
+
 function computeRoute(addrFrom, addrTo) {
     toggleClass();
     var button = document.querySelector('.button')
@@ -193,6 +258,8 @@ function computeRoute(addrFrom, addrTo) {
 
             //En velo
             drawLine(data["features"][0]["geometry"]["coordinates"], '#7700B3')
+            //get current position center of Map
+            addMarkers(addrFrom)
         },
         error: function (err) {
             console.log(err)
