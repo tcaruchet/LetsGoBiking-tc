@@ -141,7 +141,31 @@ namespace LetsGoBiking_tc.Routing.Controllers
         }
 
 
+        [HttpGet("Stations/Around/{latitude}/{longitude}")]
+        public async Task<List<Station>> FindStationsAround(double latitude, double longitude)
+        {
+            //find all stations around 1 km radius from user position
+            List<Station> stationsAround = new();
+            GeoCoordinate userPosition = new GeoCoordinate(latitude, longitude);
 
+            //get city of userPosition
+            string city = await osMapNomatim.GetCity(latitude, longitude);
+
+            foreach (Station station in _stations.Where(station => station.ContractName.Equals(city, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                if (userPosition.GetDistanceTo(new GeoCoordinate(station.Position.Latitude, station.Position.Longitude)) < 1000)
+                {
+                    JCDecauxObject tmp = await Proxy.GetJCDecauxItem(station.ContractName, station.Number.ToString());
+                    if (tmp.Station.MainStands.Availabilities.Bikes >= THRESHOLD_AVAILABLE_BIKES &&
+                        tmp.Station.Status.Equals("OPEN", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        stationsAround.Add(tmp.Station);
+                    }
+                }
+            }
+
+            return stationsAround;
+        }
 
 
 

@@ -86,28 +86,64 @@ function PathComputing(e) {
     var addrFrom = document.querySelector("#locationOrigin").value.replaceAll(" ", "+")
     var addrTo = document.querySelector("#locationDest").value.replaceAll(" ", "+")
 
-    const settings = {
-        "async": true,
-        "crossDomain": true,
-        "url": "https://api-adresse.data.gouv.fr/search/?q=" + addrFrom,
-        "method": "GET"
-    };
+    // const settings = {
+    //     "async": true,
+    //     "crossDomain": true,
+    //     "url": "https://api-adresse.data.gouv.fr/search/?q=" + addrFrom,
+    //     "method": "GET"
+    // };
 
-    $.ajax(settings).done(function (response) {
-        lng = response["features"][0]["geometry"].coordinates[0]
-        lat = response["features"][0]["geometry"].coordinates[1]
-        const settings = {
-            "async": true,
-            "crossDomain": true,
-            "url": "https://api-adresse.data.gouv.fr/search/?q=" + addrTo,
-            "method": "GET"
-        };
+    // $.ajax(settings).done(function (response) {
+    //     lng = response["features"][0]["geometry"].coordinates[0]
+    //     lat = response["features"][0]["geometry"].coordinates[1]
+    //     const settings = {
+    //         "async": true,
+    //         "crossDomain": true,
+    //         "url": "https://api-adresse.data.gouv.fr/search/?q=" + addrTo,
+    //         "method": "GET"
+    //     };
 
-        $.ajax(settings).done(function (response) {
-            lngTo = response["features"][0]["geometry"].coordinates[0]
-            latTo = response["features"][0]["geometry"].coordinates[1]
-            computeRoute([lat, lng], [latTo, lngTo])
-        });
+    //     $.ajax(settings).done(function (response) {
+    //         lngTo = response["features"][0]["geometry"].coordinates[0]
+    //         latTo = response["features"][0]["geometry"].coordinates[1]
+    //         computeRoute([lat, lng], [latTo, lngTo])
+    //     });
+    // });
+
+
+
+    //call http://localhost:5157/api/LGBiking/Position/{address}
+
+    $.ajax({
+        url: "http://localhost:5157/api/LGBiking/Position/" + addrFrom,
+        type: "GET",
+        success: function (data) {
+            if(data === undefined) {
+                alert("Adresse de départ non trouvée")
+            }
+            else{
+                lng = data["longitude"]
+                lat = data["latitude"]
+                $.ajax({
+                    url: "http://localhost:5157/api/LGBiking/Position/" + addrTo,
+                    type: "GET",
+                    success: function (data) {
+                        if(data === undefined) {
+                            alert("Adresse d'arrivée non trouvée")
+                        }
+                        else{
+                            lngTo = data["longitude"]
+                            latTo = data["latitude"]
+                            computeRoute([lat, lng], [latTo, lngTo])
+                        }
+                    }
+                });
+            }
+            
+        },
+        error: function (data) {
+            alert("Erreur lors de la requête pour chercher l'adresse.")
+        }
     });
 }
 
