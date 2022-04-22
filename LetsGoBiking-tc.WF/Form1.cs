@@ -20,29 +20,44 @@ namespace LetsGoBiking_tc.WF
             InitializeComponent();
         }
 
-        private void BtnGetAllStations_Click(object sender, EventArgs e)
+        private async void BtnGetAllStations_Click(object sender, EventArgs e)
         {
             // get all stations with HTTP request in SOAP
+            DateTime startDate = DateTime.Now;
             var soapString = Helpers.Helpers.ConstructSoapRequest(0,0);
             using (var client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Add("SOAPAction", "http://localhost:5157/api/LGBiking/Stations");
-                var soapResponse = client.GetStringAsync("http://localhost:5157/api/LGBiking/Stations").Result;
-                stations = Helpers.Helpers.ParseSoapResponse(soapResponse);
+                client.DefaultRequestHeaders.Add("SOAPAction", "http://localhost:5157/api/LGBiking/");
+                var soapResponse = await client.GetAsync("http://localhost:5157/api/LGBiking/");
+                soapResponse.EnsureSuccessStatusCode();
+                DateTime endDate = DateTime.Now;                
+                string response = await soapResponse.Content.ReadAsStringAsync();
+                stations = Helpers.Helpers.ParseSoapResponse(response);
                 this.DtgStations.DataSource = stations;
+                LblUrl.Text = $"URL : http://localhost:5157/api/LGBiking/";
+                LblTime.Text = $"Time : {endDate.Subtract(startDate).TotalMilliseconds} ms";
+                LblSize.Text = $"Size : {response.Length} bytes";                
             }
         }
 
-        private void BtnFindStationsByCityAndContractName_Click(object sender, EventArgs e)
+        private async void BtnFindStationsByCityAndContractName_Click(object sender, EventArgs e)
         {
-            // get all stations with HTTP request in SOAP
+            // get station with HTTP request in SOAP
+            DateTime startDate = DateTime.Now;
             var soapString = Helpers.Helpers.ConstructSoapRequest(0, 0);
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("SOAPAction", $"http://localhost:5157/api/LGBiking/Stations/{TxtCity.Text.ToLowerInvariant()}/{TxtContractName.Text.ToLowerInvariant()}");
-                var soapResponse = client.GetStringAsync("http://localhost:5157/api/LGBiking/Stations/{TxtCity.Text.ToLowerInvariant()}/{TxtContractName.Text.ToLowerInvariant()}").Result;
-                stations = Helpers.Helpers.ParseSoapResponse(soapResponse);
+                var soapResponse = await client.GetAsync("http://localhost:5157/api/LGBiking/Stations/{TxtCity.Text.ToLowerInvariant()}/{TxtContractName.Text.ToLowerInvariant()}");
+                soapResponse.EnsureSuccessStatusCode();
+                DateTime endDate = DateTime.Now;
+                string response = await soapResponse.Content.ReadAsStringAsync();
+                stations = Helpers.Helpers.ParseSoapResponse(response);
                 this.DtgStations.DataSource = stations;
+                
+                LblUrl.Text = $"URL : http://localhost:5157/api/LGBiking/Stations/{TxtCity.Text.ToLowerInvariant()}/{TxtContractName.Text.ToLowerInvariant()}";
+                LblTime.Text = $"Time : {endDate.Subtract(startDate).TotalMilliseconds} ms";
+                LblSize.Text = $"Size : {response.Length} bytes";
             }
         }
     }
