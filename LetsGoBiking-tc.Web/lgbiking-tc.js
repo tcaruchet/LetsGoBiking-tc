@@ -8,7 +8,7 @@ var map = new ol.Map({
     ],
 
     view: new ol.View({
-        center: ol.proj.fromLonLat([22.2, 2.0]), // <-- Those are the GPS coordinates to center the map to.
+        center: ol.proj.fromLonLat([7.187043, 43.792614]), // <-- Those are the GPS coordinates to center the map to.
         zoom: 10 // You can adjust the default zoom.
     })
 });
@@ -16,7 +16,7 @@ var map = new ol.Map({
 function CenterMap(long, lat) {
     console.log("Long: " + long + " Lat: " + lat);
     map.getView().setCenter(ol.proj.transform([long, lat], 'EPSG:4326', 'EPSG:3857'));
-    map.getView().setZoom(12);
+    map.getView().setZoom(15);
 }
 
 function drawLine(arr, couleur) {
