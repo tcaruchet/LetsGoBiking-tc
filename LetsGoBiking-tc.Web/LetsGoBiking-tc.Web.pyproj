@@ -32,7 +32,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.html" />
-    <Content Include="oldindex.html" />
     <Content Include="lgbiking-tc.js" />
     <Content Include="style.css" />
   </ItemGroup>
