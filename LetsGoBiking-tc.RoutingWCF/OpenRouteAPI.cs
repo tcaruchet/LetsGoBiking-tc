@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using LetsGoBiking_tc.RoutingWCF.Models;
 using static LetsGoBiking_tc.Lib.Helpers;
 
 namespace LetsGoBiking_tc.RoutingWCF
@@ -15,51 +17,48 @@ namespace LetsGoBiking_tc.RoutingWCF
         
         private static readonly Lazy<string> _apiRoot = new(() => $"https://api.openrouteservice.org/{{0}}?api_key={_apiToken}&");
 
-        private static async Task<HttpContent> PerformRequest(string endpoint, Dictionary<string, object>? args = null)
+        public static async Task<string> PostDirections(string request, string data)
         {
-            var url = string.Format(_apiRoot.Value, endpoint);
-
-            if (args != null)
+            try
             {
-                var query = HttpUtility.ParseQueryString("");
-                foreach (var entry in args)
+                Log($"Fetching url {request}");
+                StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+                HttpRequestMessage httpRequest = new HttpRequestMessage()
                 {
-                    query.Add(entry.Key, entry.Value.ToString());
-                }
+                    RequestUri = new Uri(request),
+                    Method = HttpMethod.Post,
+                    Content = content
+                };
+                httpRequest.Headers.Add("Authorization", _apiToken);
 
-                url += query.ToString();
+                HttpResponseMessage response = await _client.SendAsync(httpRequest);
+                response.EnsureSuccessStatusCode();
+
+                return await response.Content.ReadAsStringAsync();
             }
-
-            Log($"Fetching {url}");
-            var response = await _client.GetAsync(url);
-            response.EnsureSuccessStatusCode();
-            return response.Content;
+            catch (HttpRequestException)
+            {
+                return null;
+            }
         }
 
-        /// <summary>
-        /// Sends a GET request to the specified endpoint asynchronously.
-        /// </summary>
-        /// <param name="endpoint">An API endpoint.</param>
-        /// <param name="args">The parameters to the endpoint, as a dictionary.</param>
-        /// <param name="cached">Whether to cache the request or not.</param>
-        /// <returns>A task yielding the response as a stream.</returns>
-        public static async Task<Stream> GetAsync(string endpoint, Dictionary<string, object>? args = null)
+        public static async Task<string> PostDirections(JCDPosition[] positions, string profile)
         {
-            var content = await PerformRequest(endpoint, args);
-            return await content.ReadAsStreamAsync();
+            string request = "https://api.openrouteservice.org/v2/directions/" + profile + "/geojson";
+            return await PostDirections(request, BuildDataForPOSTCall(positions));
         }
 
-        /// <summary>
-        /// Sends a GET request to the specified endpoint asynchronously.
-        /// </summary>
-        /// <param name="endpoint">An API endpoint.</param>
-        /// <param name="args">The parameters to the endpoint, as a dictionary.</param>
-        /// <param name="cached">Whether to cache the request or not.</param>
-        /// <returns>A task yielding the response as a raw string.</returns>
-        public static async Task<string> GetAsyncString(string endpoint, Dictionary<string, object>? args = null)
+        private static string BuildDataForPOSTCall(JCDPosition[] positions)
         {
-            var content = await PerformRequest(endpoint, args);
-            return await content.ReadAsStringAsync();
+            string data = "{\"coordinates\":[";
+            
+            foreach (JCDPosition position in positions)
+                data += "[" + position.longitude.ToString(new System.Globalization.CultureInfo("fr-FR")).Replace(",", ".") + "," + position.latitude.ToString(new System.Globalization.CultureInfo("fr-FR")).Replace(",", ".") + "],";
+
+            data += "],\"instructions\":\"true\",\"language\":\"fr\",\"preference\":\"shortest\",\"units\":\"m\"}";
+
+            return data.Replace("],],", "]],");
         }
     }
 }
+
