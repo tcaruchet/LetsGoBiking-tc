@@ -520,10 +520,10 @@ namespace LetsGoBiking_tc.WF.RoutingService {
         System.Threading.Tasks.Task<LetsGoBiking_tc.WF.RoutingService.Station[]> GetStationsAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBikeRoutingService/GetStation", ReplyAction="http://tempuri.org/IBikeRoutingService/GetStationResponse")]
-        LetsGoBiking_tc.WF.RoutingService.Station GetStation(string id);
+        LetsGoBiking_tc.WF.RoutingService.Station GetStation(string city, string id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBikeRoutingService/GetStation", ReplyAction="http://tempuri.org/IBikeRoutingService/GetStationResponse")]
-        System.Threading.Tasks.Task<LetsGoBiking_tc.WF.RoutingService.Station> GetStationAsync(string id);
+        System.Threading.Tasks.Task<LetsGoBiking_tc.WF.RoutingService.Station> GetStationAsync(string city, string id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBikeRoutingService/GetRoute", ReplyAction="http://tempuri.org/IBikeRoutingService/GetRouteResponse")]
         System.IO.Stream GetRoute(LetsGoBiking_tc.WF.RoutingService.RouteParameters points);
@@ -573,12 +573,12 @@ namespace LetsGoBiking_tc.WF.RoutingService {
             return base.Channel.GetStationsAsync();
         }
         
-        public LetsGoBiking_tc.WF.RoutingService.Station GetStation(string id) {
-            return base.Channel.GetStation(id);
+        public LetsGoBiking_tc.WF.RoutingService.Station GetStation(string city, string id) {
+            return base.Channel.GetStation(city, id);
         }
         
-        public System.Threading.Tasks.Task<LetsGoBiking_tc.WF.RoutingService.Station> GetStationAsync(string id) {
-            return base.Channel.GetStationAsync(id);
+        public System.Threading.Tasks.Task<LetsGoBiking_tc.WF.RoutingService.Station> GetStationAsync(string city, string id) {
+            return base.Channel.GetStationAsync(city, id);
         }
         
         public System.IO.Stream GetRoute(LetsGoBiking_tc.WF.RoutingService.RouteParameters points) {

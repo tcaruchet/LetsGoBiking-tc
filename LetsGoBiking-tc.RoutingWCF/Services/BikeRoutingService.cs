@@ -21,24 +21,17 @@ namespace LetsGoBiking_tc.RoutingWCF.Services
 
         public async Task<List<Station>> GetStationsAsync()
         {
-            try
-            {
-                if (_stations == null)
-                {
-                    _stations = JsonConvert.DeserializeObject<List<Station>>(await _proxyService.GetStationsAsync());
-                }
-                return _stations;
-            }
-            catch (Exception ex)
-            {
-                throw new System.ServiceModel.FaultException(ex.Message);
-            }
-            
+            return _stations ??= JsonConvert.DeserializeObject<List<Station>>(await _proxyService.GetStationsAsync());
         }
 
-        public async Task<Station> GetStationAsync(string id)
+        public async Task<List<Station>> GetStationsCityAsync(string city)
         {
-            return JsonConvert.DeserializeObject<Station>(await _proxyService.GetStationAsync(id));
+            return JsonConvert.DeserializeObject<List<Station>>(await _proxyService.GetStationsCityAsync(city));            
+        }
+
+        public async Task<Station> GetStationAsync(string city, string id)
+        {
+            return JsonConvert.DeserializeObject<Station>(await _proxyService.GetStationAsync(city, id));
         }
 
         private async Task<Station> ClosestAvailable(JCDPosition pos)
@@ -51,7 +44,7 @@ namespace LetsGoBiking_tc.RoutingWCF.Services
                 .Select(x => x.station);
             foreach (var s1 in couples.Concat(stations.Skip(5)))
             {
-                if ((await GetStationAsync(s1.number.ToString())).totalStands.availabilities.bikes > 0) 
+                if ((await GetStationAsync(s1.contractName, s1.number.ToString())).totalStands.availabilities.bikes > 0) 
                     return s1;
                 Log($"Station {s1.number} unavailable, trying next one");
             }

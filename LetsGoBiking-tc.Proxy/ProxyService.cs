@@ -6,26 +6,23 @@ namespace LetsGoBiking_tc.Proxy
 {
     public class ProxyService : IProxyService
     {
-        private static readonly string _apiCity = "marseille";
 
         public async Task<string> GetStationsAsync()
         {
             Log("");
-            return await JCDecauxAPI.GetAsync("stations", new() { ["contract"] = _apiCity }, false);
+            return await JCDecauxAPI.GetAsync("stations", new() { }, false);
         }
 
-        public async Task<string> GetStationAsync(string id)
+        public async Task<string> GetStationsCityAsync(string city)
         {
-            try
-            {
-                Log(id);
-                return await JCDecauxAPI.GetAsync("stations/" + id, new() { ["contract"] = _apiCity });
-            }
-            catch (Exception ex)
-            {
-                throw new System.ServiceModel.FaultException<string>(ex.Message);
-            }
-           
+            Log(city);
+            return await JCDecauxAPI.GetAsync("stations", new() { ["contract"] = city }, false);
+        }
+
+        public async Task<string> GetStationAsync(string city, string id)
+        {
+            Log(id);
+            return await JCDecauxAPI.GetAsync("stations/" + id, new() { ["contract"] = city });
         }
     }
 }

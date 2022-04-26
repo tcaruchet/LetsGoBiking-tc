@@ -16,15 +16,22 @@ namespace LetsGoBiking_tc.RoutingWCF.Services.Interfaces
         [WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare,
-            UriTemplate = "GetStations")]
+            UriTemplate = "Stations")]
         Task<List<Station>> GetStationsAsync();
 
         [OperationContract]
         [WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare,
-            UriTemplate = "GetStation/{id}")]
-        Task<Station> GetStationAsync(string id);
+            UriTemplate = "Stations/{city}")]
+        Task<List<Station>> GetStationsCityAsync(string city);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare,
+            UriTemplate = "Stations/{city}/{id}")]
+        Task<Station> GetStationAsync(string city, string id);
 
         [OperationContract]
         [WebInvoke(Method = "POST",

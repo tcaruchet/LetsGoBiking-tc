@@ -21,11 +21,17 @@ namespace LetsGoBiking_tc.RoutingWCF.ProxyService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProxyService/GetStations", ReplyAction="http://tempuri.org/IProxyService/GetStationsResponse")]
         System.Threading.Tasks.Task<string> GetStationsAsync();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProxyService/GetStation", ReplyAction="http://tempuri.org/IProxyService/GetStationResponse")]
-        string GetStation(string id);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProxyService/GetStationsCity", ReplyAction="http://tempuri.org/IProxyService/GetStationsCityResponse")]
+        string GetStationsCity(string city);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProxyService/GetStationsCity", ReplyAction="http://tempuri.org/IProxyService/GetStationsCityResponse")]
+        System.Threading.Tasks.Task<string> GetStationsCityAsync(string city);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProxyService/GetStation", ReplyAction="http://tempuri.org/IProxyService/GetStationResponse")]
-        System.Threading.Tasks.Task<string> GetStationAsync(string id);
+        string GetStation(string city, string id);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProxyService/GetStation", ReplyAction="http://tempuri.org/IProxyService/GetStationResponse")]
+        System.Threading.Tasks.Task<string> GetStationAsync(string city, string id);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -63,12 +69,20 @@ namespace LetsGoBiking_tc.RoutingWCF.ProxyService {
             return base.Channel.GetStationsAsync();
         }
         
-        public string GetStation(string id) {
-            return base.Channel.GetStation(id);
+        public string GetStationsCity(string city) {
+            return base.Channel.GetStationsCity(city);
         }
         
-        public System.Threading.Tasks.Task<string> GetStationAsync(string id) {
-            return base.Channel.GetStationAsync(id);
+        public System.Threading.Tasks.Task<string> GetStationsCityAsync(string city) {
+            return base.Channel.GetStationsCityAsync(city);
+        }
+        
+        public string GetStation(string city, string id) {
+            return base.Channel.GetStation(city, id);
+        }
+        
+        public System.Threading.Tasks.Task<string> GetStationAsync(string city, string id) {
+            return base.Channel.GetStationAsync(city, id);
         }
     }
 }

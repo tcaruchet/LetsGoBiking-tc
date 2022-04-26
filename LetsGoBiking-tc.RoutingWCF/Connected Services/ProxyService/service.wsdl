@@ -12,6 +12,12 @@
   <wsdl:message name="IProxyService_GetStations_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetStationsResponse" />
   </wsdl:message>
+  <wsdl:message name="IProxyService_GetStationsCity_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetStationsCity" />
+  </wsdl:message>
+  <wsdl:message name="IProxyService_GetStationsCity_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetStationsCityResponse" />
+  </wsdl:message>
   <wsdl:message name="IProxyService_GetStation_InputMessage">
     <wsdl:part name="parameters" element="tns:GetStation" />
   </wsdl:message>
@@ -23,6 +29,10 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IProxyService/GetStations" message="tns:IProxyService_GetStations_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IProxyService/GetStationsResponse" message="tns:IProxyService_GetStations_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="GetStationsCity">
+      <wsdl:input wsaw:Action="http://tempuri.org/IProxyService/GetStationsCity" message="tns:IProxyService_GetStationsCity_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IProxyService/GetStationsCityResponse" message="tns:IProxyService_GetStationsCity_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="GetStation">
       <wsdl:input wsaw:Action="http://tempuri.org/IProxyService/GetStation" message="tns:IProxyService_GetStation_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IProxyService/GetStationResponse" message="tns:IProxyService_GetStation_OutputMessage" />
@@ -32,6 +42,15 @@
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetStations">
       <soap:operation soapAction="http://tempuri.org/IProxyService/GetStations" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStationsCity">
+      <soap:operation soapAction="http://tempuri.org/IProxyService/GetStationsCity" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

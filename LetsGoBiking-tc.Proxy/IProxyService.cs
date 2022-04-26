@@ -18,7 +18,16 @@ namespace LetsGoBiking_tc.Proxy
         [WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare,
-            UriTemplate = "GetStation/{id}")]
-        Task<string> GetStationAsync(string id);
+            UriTemplate = "GetStation/{city}")]
+        Task<string> GetStationsCityAsync(string city);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare,
+            UriTemplate = "GetStation/{city}/{id}")]
+        Task<string> GetStationAsync(string city, string id);
+
+        
     }
 }
