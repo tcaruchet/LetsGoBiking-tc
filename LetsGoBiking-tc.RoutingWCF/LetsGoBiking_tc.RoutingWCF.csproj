@@ -65,6 +65,9 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Helpers\EnableCorsBehavior.cs" />
+    <Compile Include="Models\OSMPlace.cs" />
+    <Compile Include="Models\OSMReversePlace.cs" />
+    <Compile Include="OpenStreetMapAPI.cs" />
     <Compile Include="Services\Interfaces\IBikeRoutingService.cs" />
     <Compile Include="Models\JCDPosition.cs" />
     <Compile Include="Models\Station.cs" />

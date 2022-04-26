@@ -40,6 +40,14 @@ namespace LetsGoBiking_tc.RoutingWCF.Services.Interfaces
             UriTemplate = "Stations/Nearest/{latitude}/{longitude}")]
         Task<Station> FindNearestStation(string latitude, string longitude);
 
+        //TODO
+        [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare,
+            UriTemplate = "Stations/Around/{latitude}/{longitude}/{radius}")]
+        Task<List<Station>> FindStationsAround(string latitude, string longitude, string radius);
+
         //OpenService
         [OperationContract]
         [WebInvoke(Method = "POST",

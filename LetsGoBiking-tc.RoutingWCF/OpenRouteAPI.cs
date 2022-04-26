@@ -11,10 +11,9 @@ namespace LetsGoBiking_tc.RoutingWCF
     internal class OpenRouteAPI
     {
         private static readonly HttpClient _client = new();
-        private static readonly Lazy<string> _apiToken = new(() => Environment.GetEnvironmentVariable("OPENROUTE_API_KEY")
-                                                   ?? throw new Exception("Missing API token (env var OPENROUTE_API_KEY)"));
-
-        private static readonly Lazy<string> _apiRoot = new(() => $"https://api.openrouteservice.org/{{0}}?api_key={_apiToken.Value}&");
+        private static readonly string _apiToken = "5b3ce3597851110001cf6248b0767c7d723a4189966a94487a346ca9";
+        
+        private static readonly Lazy<string> _apiRoot = new(() => $"https://api.openrouteservice.org/{{0}}?api_key={_apiToken}&");
 
         private static async Task<HttpContent> PerformRequest(string endpoint, Dictionary<string, object>? args = null)
         {

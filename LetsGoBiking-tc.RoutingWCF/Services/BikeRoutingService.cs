@@ -83,6 +83,28 @@ namespace LetsGoBiking_tc.RoutingWCF.Services
             return stationFound;
         }
 
+        public async Task<List<Station>> FindStationsAround(string latitude, string longitude, string radius)
+        {
+            if (!double.TryParse(latitude, NumberStyles.Any, CultureInfo.InvariantCulture, out var lat) ||
+                !double.TryParse(longitude, NumberStyles.Any, CultureInfo.InvariantCulture, out var lon) ||
+                !int.TryParse(radius, out var rad))
+            {
+                return null;
+            }            
+            
+            List<Station> stationsAround = new();
+            GeoCoordinate userPosition = new GeoCoordinate(lat, lon);
+            
+            //get city of userPosition
+            string city = await OpenStreetMapAPI.GetCity(lat, lon);
+
+            foreach (Station station in _stations.Where(station => station.contractName.Equals(city, StringComparison.InvariantCultureIgnoreCase)))
+                if (userPosition.GetDistanceTo(new GeoCoordinate(station.position.latitude, station.position.longitude)) < rad)
+                    stationsAround.Add(station);
+
+            return stationsAround;
+        }
+
 
         private async Task<Station> ClosestAvailable(JCDPosition pos)
         {
