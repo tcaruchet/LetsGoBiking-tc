@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Device.Location;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -17,7 +18,18 @@ namespace LetsGoBiking_tc.RoutingWCF.Services
     {
         private static readonly ProxyServiceClient _proxyService = new();
 
+        private static readonly int THRESHOLD_AVAILABLE_BIKES = 2; //Nombre de vélos minimum pour que la station soit considérée comme disponible
+        private static readonly int THRESHOLD_AVAILABLE_BIKES_STANDS = 2; //Nombre de stands minimum pour que la station soit considérée comme disponible
+        private static readonly int MIN_DISTANCE_TO_STATION = 50; //Distance minimum d'arrêt de recherche : si station trouvée à moins de 50m, pas de recherche sup.
+
+
+
         private static List<Station> _stations;
+
+        public BikeRoutingService()
+        {
+            _stations = JsonConvert.DeserializeObject<List<Station>>(_proxyService.GetStationsAsync().Result);
+        }
 
         public async Task<List<Station>> GetStationsAsync()
         {
@@ -33,6 +45,44 @@ namespace LetsGoBiking_tc.RoutingWCF.Services
         {
             return JsonConvert.DeserializeObject<Station>(await _proxyService.GetStationAsync(city, id));
         }
+
+        public async Task<Station> FindNearestStation(string latitude, string longitude)
+        {
+            //convert latitude and longitude to double or return error
+            if (!double.TryParse(latitude, NumberStyles.Any, CultureInfo.InvariantCulture, out var lat) ||
+                !double.TryParse(longitude, NumberStyles.Any, CultureInfo.InvariantCulture, out var lon))
+            {
+                return null;
+            }
+
+            GeoCoordinate location = new GeoCoordinate(lat, lon);
+            Station stationFound = null;
+            double dist = double.MaxValue;
+            foreach (Station station in _stations)
+            {
+                if (location.GetDistanceTo(new GeoCoordinate(station.position.latitude, station.position.longitude)) <
+                    dist)
+                {
+                    string response = await _proxyService.GetStationAsync(station.contractName, station.number.ToString());
+                    var tmp = JsonConvert.DeserializeObject<Station>(response);
+                    if (tmp.totalStands.availabilities.bikes >= THRESHOLD_AVAILABLE_BIKES &&
+                        tmp.status.Equals("OPEN", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        stationFound = tmp;
+                        dist = location.GetDistanceTo(new GeoCoordinate(stationFound.position.latitude,
+                            stationFound.position.longitude));
+                        if (dist < MIN_DISTANCE_TO_STATION)
+                            break;
+                    }
+                }
+            }
+
+            if (stationFound != null)
+                Log($"Station trouvée : {stationFound.contractName}, {stationFound.number} : {stationFound.name}");
+
+            return stationFound;
+        }
+
 
         private async Task<Station> ClosestAvailable(JCDPosition pos)
         {

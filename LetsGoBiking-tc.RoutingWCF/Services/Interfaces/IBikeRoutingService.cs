@@ -34,6 +34,14 @@ namespace LetsGoBiking_tc.RoutingWCF.Services.Interfaces
         Task<Station> GetStationAsync(string city, string id);
 
         [OperationContract]
+        [WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare,
+            UriTemplate = "Stations/Nearest/{latitude}/{longitude}")]
+        Task<Station> FindNearestStation(string latitude, string longitude);
+
+        //OpenService
+        [OperationContract]
         [WebInvoke(Method = "POST",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
