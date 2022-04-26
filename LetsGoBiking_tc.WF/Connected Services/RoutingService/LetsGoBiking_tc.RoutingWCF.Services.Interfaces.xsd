@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/LetsGoBiking_tc.RoutingWCF.Services.Interfaces" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/LetsGoBiking_tc.RoutingWCF.Services.Interfaces" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/LetsGoBiking_tc.RoutingWCF.Models" />
+  <xs:complexType name="RouteParameters">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/LetsGoBiking_tc.RoutingWCF.Models" minOccurs="0" name="end" nillable="true" type="q1:JCDPosition" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/LetsGoBiking_tc.RoutingWCF.Models" minOccurs="0" name="start" nillable="true" type="q2:JCDPosition" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RouteParameters" nillable="true" type="tns:RouteParameters" />
+  <xs:complexType name="GeocodeParameters">
+    <xs:sequence>
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/LetsGoBiking_tc.RoutingWCF.Models" minOccurs="0" name="focus" nillable="true" type="q3:JCDPosition" />
+      <xs:element minOccurs="0" name="query" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GeocodeParameters" nillable="true" type="tns:GeocodeParameters" />
+</xs:schema>
