@@ -115,7 +115,7 @@ function PathComputing(e) {
     //call http://localhost:5157/api/LGBiking/Position/{address}
 
     $.ajax({
-        url: "http://localhost:5157/api/LGBiking/Position/" + addrFrom,
+        url: "http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/rest/Position/" + addrFrom,
         type: "GET",
         success: function (data) {
             if(data === undefined) {
@@ -125,7 +125,7 @@ function PathComputing(e) {
                 lng = data["longitude"]
                 lat = data["latitude"]
                 $.ajax({
-                    url: "http://localhost:5157/api/LGBiking/Position/" + addrTo,
+                    url: "http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/rest/Position/" + addrTo,
                     type: "GET",
                     success: function (data) {
                         if(data === undefined) {
@@ -167,7 +167,7 @@ function addMarkers(currentPositionMap){
     //clearAllLayers()
     //call ajax ttp://localhost:5157/api/LGBiking/Stations/Around/addrFrom/addrTo
     $.ajax({
-        url: "http://localhost:5157/api/LGBiking/Stations/Around/" + currentPositionMap[0] + "/" + currentPositionMap[1],
+        url: "http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/rest/Stations/Around/" + currentPositionMap[0] + "/" + currentPositionMap[1],
         type: "GET",
         success: function (data) {
             if(data === undefined || data === []) {
@@ -236,7 +236,7 @@ function computeRoute(addrFrom, addrTo) {
 
     //call http://localhost:5157/api/LGBiking/Route/Path with ajax
     $.ajax({
-        url: "http://localhost:5157/api/LGBiking/Route/Path/Complete",
+        url: "http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/rest/Route/Path",
         type: "POST",
         data: JSON.stringify([
             {
