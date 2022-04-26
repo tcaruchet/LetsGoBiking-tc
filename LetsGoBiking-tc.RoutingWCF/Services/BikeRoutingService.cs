@@ -105,6 +105,35 @@ namespace LetsGoBiking_tc.RoutingWCF.Services
             return stationsAround;
         }
 
+        public async Task<JCDPosition> GetPosition(string address)
+        {
+            //get position from address with OpenStreetMapAPI
+            address = address.Trim();
+            if (address.Equals("null") || address.Equals(string.Empty))
+            {
+                return null;
+            }
+
+            List<OSMPlace> places = await OpenStreetMapAPI.GetPlacesFromAddress(address);
+            OSMPlace bestPlace = null;
+            double importance = double.MinValue;
+
+            foreach (OSMPlace place in places)
+            {
+                if (place.Importance > importance)
+                {
+                    bestPlace = place;
+                    importance = place.Importance;
+                }
+            }
+
+            return (bestPlace == null) ? null : new JCDPosition
+            {
+                latitude = bestPlace.Latitude,
+                longitude = bestPlace.Longitude
+            };
+        }
+
 
         private async Task<Station> ClosestAvailable(JCDPosition pos)
         {
