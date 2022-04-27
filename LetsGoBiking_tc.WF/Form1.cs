@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,8 +24,16 @@ namespace LetsGoBiking_tc.WF
         {
             DateTime startDate = DateTime.Now;
             var client = new BikeRoutingServiceClient();
-            var stations = await client.GetStationsAsync();
-            Stations = new List<Station>(stations);
+            //if client is not opened
+            try
+            {
+                var stations = await client.GetStationsAsync();
+                Stations = new List<Station>(stations);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
             DateTime endDate = DateTime.Now;
             this.DtgStations.DataSource = Stations;
             //LblUrl.Text = $"URL : http://localhost:5157/api/LGBiking/";
