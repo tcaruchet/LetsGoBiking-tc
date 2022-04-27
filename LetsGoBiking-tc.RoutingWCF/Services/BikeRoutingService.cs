@@ -241,16 +241,5 @@ namespace LetsGoBiking_tc.RoutingWCF.Services
             //return routes as json
             return routesToReturn;
         }
-
-        //public async Task<Stream> Geocode(GeocodeParameters geo)
-        //{
-        //    return await OpenRouteAPI.GetAsync("geocode/autocomplete", new()
-        //    {
-        //        ["text"] = geo.query,
-        //        ["focus.point.lon"] = geo.focus.longitude,
-        //        ["focus.point.lat"] = geo.focus.latitude,
-        //        ["sources"] = "openstreetmap"
-        //    });
-        //}
     }
 }

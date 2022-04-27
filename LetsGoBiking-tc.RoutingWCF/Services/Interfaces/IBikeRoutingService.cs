@@ -63,27 +63,5 @@ namespace LetsGoBiking_tc.RoutingWCF.Services.Interfaces
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "Route/Path")]
         Task<GeoJson> GetRoute(JCDPosition[] positions);
-
-        //[OperationContract]
-        //[WebInvoke(Method = "POST",
-        //    RequestFormat = WebMessageFormat.Json,
-        //    ResponseFormat = WebMessageFormat.Json,
-        //    BodyStyle = WebMessageBodyStyle.Bare,
-        //    UriTemplate = "Geocode")]
-        //Task<Stream> Geocode(GeocodeParameters geo);
-    }
-
-    [DataContract]
-    public class RouteParameters
-    {
-        [DataMember] public JCDPosition start { get; set; }
-        [DataMember] public JCDPosition end { get; set; }
-    }
-
-    [DataContract]
-    public class GeocodeParameters
-    {
-        [DataMember] public string query { get; set; }
-        [DataMember] public JCDPosition focus { get; set; }
     }
 }
