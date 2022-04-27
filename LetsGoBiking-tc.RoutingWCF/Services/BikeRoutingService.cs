@@ -28,7 +28,16 @@ namespace LetsGoBiking_tc.RoutingWCF.Services
 
         public BikeRoutingService()
         {
-            _stations = JsonConvert.DeserializeObject<List<Station>>(_proxyService.GetStationsAsync().Result);
+            _stations = JsonConvert.DeserializeObject<List<Station>>(_proxyService.GetStationsAsync().Result, new JsonSerializerSettings
+            {
+                Culture = CultureInfo.GetCultureInfo("fr-FR"),
+                DateFormatString = "dd/MM/yyyy HH:mm:ss",
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc,
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+                Formatting = Formatting.Indented
+            });
         }
 
         public async Task<List<Station>> GetStationsAsync()
@@ -87,7 +96,7 @@ namespace LetsGoBiking_tc.RoutingWCF.Services
         {
             if (!double.TryParse(latitude, NumberStyles.Any, CultureInfo.InvariantCulture, out var lat) ||
                 !double.TryParse(longitude, NumberStyles.Any, CultureInfo.InvariantCulture, out var lon) ||
-                !int.TryParse(radius, out var rad))
+                !double.TryParse(radius, NumberStyles.Any, CultureInfo.InvariantCulture, out var rad))
             {
                 return null;
             }            
@@ -118,6 +127,9 @@ namespace LetsGoBiking_tc.RoutingWCF.Services
             OSMPlace bestPlace = null;
             double importance = double.MinValue;
 
+            if (places == null || places.Count < 1)
+                return null;
+            
             foreach (OSMPlace place in places)
             {
                 if (place.Importance > importance)
@@ -139,9 +151,9 @@ namespace LetsGoBiking_tc.RoutingWCF.Services
         {
             var stations = (await GetStationsAsync()).OrderBy(s => s.position.Distance(pos)).ToArray();
             var couples = (await Task.WhenAll(stations.Take(5)
-                .Select(async station => (station, 
-                    (await GetRouteWalking(new JCDPosition[]{pos, station.position}))["features"][0]["properties"]["summary"]["distance"]))))
-                .OrderBy(s => s.Item2.Value<double>())
+                .Select(async station => (station,
+                    (await GetRouteWalking(new JCDPosition[] { pos, station.position })).features[0].properties.summary.distance))))
+                .OrderBy(s => s.Item2)
                 .Select(x => x.station);
             foreach (var s1 in couples.Concat(stations.Skip(5)))
             {
@@ -153,17 +165,17 @@ namespace LetsGoBiking_tc.RoutingWCF.Services
             return null;
         }
 
-        private async Task<JObject> GetRouteFull(string type, JCDPosition[] positions)
+        private async Task<GeoJson> GetRouteFull(string type, JCDPosition[] positions)
         {
-            return JsonConvert.DeserializeObject<JObject>(await OpenRouteAPI.PostDirections(positions, type));
+            return JsonConvert.DeserializeObject<GeoJson>(await OpenRouteAPI.PostDirections(positions, type));
         }
 
-        private async Task<JObject> GetRouteWalking(JCDPosition[] positions)
+        private async Task<GeoJson> GetRouteWalking(JCDPosition[] positions)
         {
             return await GetRouteFull("foot-walking", positions);
         }
 
-        public async Task<Stream> GetRoute(JCDPosition[] positions)
+        public async Task<GeoJson> GetRoute(JCDPosition[] positions)
         {
             if (positions.Length < 2)
                 return null;
@@ -173,7 +185,7 @@ namespace LetsGoBiking_tc.RoutingWCF.Services
             if (closestStart == null)
             {
                 // no available stations
-                return new[] { await GetRouteWalking(positions) }.AsStream();
+                return await GetRouteWalking(positions);
             }
 
             var closestEnd = await ClosestAvailable(positions[positions.Length - 1]);
@@ -181,32 +193,44 @@ namespace LetsGoBiking_tc.RoutingWCF.Services
             if (closestEnd == closestStart)
             {
                 // only one available station
-                return new[] { await GetRouteWalking(positions) }.AsStream();
+                return await GetRouteWalking(positions);
             }
 
-            var routes = new[]
-            {
-                GetRouteWalking(new JCDPosition[] { positions[0], closestStart.position }),
-                GetRouteFull("cycling-regular", new JCDPosition[] { closestStart.position, closestEnd.position }),
-                GetRouteWalking(new JCDPosition[] {closestEnd.position, positions[positions.Length - 1]})
-            };
-            var myStream = await Task.WhenAll(routes);
+
+            var walkstart = GetRouteWalking(new JCDPosition[] {positions[0], closestStart.position});
+            var startend = GetRouteFull("cycling-regular", new JCDPosition[] {closestStart.position, closestEnd.position});
+            var endwalk = GetRouteWalking(new JCDPosition[] {closestEnd.position, positions[positions.Length - 1]});
+
+            var routes = await Task.WhenAll(walkstart, startend, endwalk);
 
             //compute total duration of all routes
-            var totalDuration = myStream.Sum(x => x["features"][0]["properties"]["summary"]["duration"].Value<double>());
+            //var totalDuration = myStream.Sum(x => x["features"][0]["properties"]["summary"]["duration"].Value<double>());
+            var totalDuration = routes.Sum(x =>
+            {
+                if (x.features != null && x.features.Any())
+                    return x.features[0].properties.summary.duration;
+                return 0;
+            });
 
             //get duration with full walk
             var fullDurationWalkRoute = await GetRouteWalking(new JCDPosition[] { positions[0], positions[positions.Length - 1] });
-            var fullDurationWalk = fullDurationWalkRoute["features"][0]["properties"]["summary"]["duration"].Value<double>();
+            var fullDurationWalk = fullDurationWalkRoute?.features[0].properties.summary.duration;
 
             if (fullDurationWalk < totalDuration)
             {
-                fullDurationWalkRoute["type"] = "foot-walking";
-                return new[] { fullDurationWalkRoute}.AsStream();
+                fullDurationWalkRoute.type = "foot-walking";
+                return fullDurationWalkRoute;
             }
 
-            //set type of route to walking-cycling
-            return myStream.AsStream(); //TODO return chelou ?
+            GeoJson routesToReturn = new GeoJson();
+            routesToReturn.type = "walking-cycling";
+            routesToReturn.features = new List<Feature>();
+            routesToReturn.features.Add(routes[0].features[0]);
+            routesToReturn.features.Add(routes[1].features[0]);
+            routesToReturn.features.Add(routes[2].features[0]);
+
+            //return routes as json
+            return routesToReturn;
         }
 
         //public async Task<Stream> Geocode(GeocodeParameters geo)

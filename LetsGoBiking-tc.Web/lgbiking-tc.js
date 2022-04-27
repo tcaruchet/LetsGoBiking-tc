@@ -163,11 +163,11 @@ function clearAllLayers() {
     })
 }
 
-function addMarkers(currentPositionMap){
+function addMarkers(currentPositionMap, distance){
     //clearAllLayers()
     //call ajax ttp://localhost:5157/api/LGBiking/Stations/Around/addrFrom/addrTo
     $.ajax({
-        url: "http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/rest/Stations/Around/" + currentPositionMap[0] + "/" + currentPositionMap[1],
+        url: "http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/rest/Stations/Around/" + currentPositionMap[0] + "/" + currentPositionMap[1] + "/" + distance*1.5,
         type: "GET",
         success: function (data) {
             if(data === undefined || data === []) {
@@ -256,9 +256,12 @@ function computeRoute(addrFrom, addrTo) {
             // pour draw la line, on va recup le res de l'appel vers l'API en prenant geometry -> coordinates et chaque pts representeront la line a tracer
             // var res = JSON.parse(data)
 
+            var totalDistance = 0
+            
             if(data["type"] === "foot-walking"){
                 //draw only foot walking
                 drawLine(data["features"][0]["geometry"]["coordinates"], '#7700B3')
+                totalDistance = data["features"][0]["properties"]["summary"]["distance"]
             }
             else if (data["type"] === "walking-cycling"){
                 //draw only walking-cycling
@@ -268,14 +271,16 @@ function computeRoute(addrFrom, addrTo) {
                 drawLine(data["features"][1]["geometry"]["coordinates"], '#00B3E6')
                 // features[2] go from station end to addrTo walking
                 drawLine(data["features"][2]["geometry"]["coordinates"], '#7700B3')
+                totalDistance = data["features"][0]["properties"]["summary"]["distance"] + data["features"][1]["properties"]["summary"]["distance"] + data["features"][2]["properties"]["summary"]["distance"]
             }
             else{
                 //draw only cycling
                 drawLine(data["features"][0]["geometry"]["coordinates"], '#00B3E6')
+                totalDistance = data["features"][0]["properties"]["summary"]["distance"]
             }
 
             //get current position center of Map
-            addMarkers(addrFrom)
+            addMarkers(addrFrom, totalDistance)
         },
         error: function (err) {
             console.log(err)

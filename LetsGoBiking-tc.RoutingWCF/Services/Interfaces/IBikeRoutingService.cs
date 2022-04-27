@@ -62,7 +62,7 @@ namespace LetsGoBiking_tc.RoutingWCF.Services.Interfaces
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare,
             UriTemplate = "Route/Path")]
-        Task<Stream> GetRoute(JCDPosition[] positions);
+        Task<GeoJson> GetRoute(JCDPosition[] positions);
 
         //[OperationContract]
         //[WebInvoke(Method = "POST",
