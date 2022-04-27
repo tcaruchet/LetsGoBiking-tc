@@ -31,10 +31,5 @@ namespace LetsGoBiking_tc.Lib
             Log("Press <enter> to stop");
             Console.ReadLine();
         }
-
-        public static Stream AsStream<T>(this T obj)
-        {
-            return new MemoryStream(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(obj)));
-        }
     }
 }

@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LetsGoBiking_tc.WF", "LetsG
 		{00741716-1F4D-425B-A260-576B8FD23E83} = {00741716-1F4D-425B-A260-576B8FD23E83}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LetsGoBiking_tc.Host", "LetsGoBiking_tc.Host\LetsGoBiking_tc.Host.csproj", "{001D09F8-DA4D-467C-AAFF-08DB0D8D9247}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{9895E1DA-2649-4F7C-87EC-1304FE220E51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9895E1DA-2649-4F7C-87EC-1304FE220E51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9895E1DA-2649-4F7C-87EC-1304FE220E51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{001D09F8-DA4D-467C-AAFF-08DB0D8D9247}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{001D09F8-DA4D-467C-AAFF-08DB0D8D9247}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{001D09F8-DA4D-467C-AAFF-08DB0D8D9247}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{001D09F8-DA4D-467C-AAFF-08DB0D8D9247}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -16,6 +16,7 @@
     <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
     <Name>LetsGoBiking-tc.Web</Name>
     <RootNamespace>LetsGoBiking-tc.Web</RootNamespace>
+    <WebBrowserPort>8009</WebBrowserPort>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
