@@ -84,67 +84,71 @@ function PathComputing(e) {
     var lat, lng;
 
     var addrFrom = document.querySelector("#locationOrigin").value.replaceAll(" ", "+")
-    var addrTo = document.querySelector("#locationDest").value.replaceAll(" ", "+")
+    var lat = 0
+    var lng = 0
+    //if addrFrom is empty, get current position
+    if (addrFrom === "") {
+        if (navigator.geolocation) {
+            //get current position from navigator.geolocation
+            //TODO lat lng toujours à 0
+            navigator.geolocation.getCurrentPosition(function (position) {
+                lat = position.coords.latitude;
+                lng = position.coords.longitude;
+                console.log("Lat: " + lat + " Long: " + lng);
+                CenterMap(lng, lat);
+            });
 
-    // const settings = {
-    //     "async": true,
-    //     "crossDomain": true,
-    //     "url": "https://api-adresse.data.gouv.fr/search/?q=" + addrFrom,
-    //     "method": "GET"
-    // };
-
-    // $.ajax(settings).done(function (response) {
-    //     lng = response["features"][0]["geometry"].coordinates[0]
-    //     lat = response["features"][0]["geometry"].coordinates[1]
-    //     const settings = {
-    //         "async": true,
-    //         "crossDomain": true,
-    //         "url": "https://api-adresse.data.gouv.fr/search/?q=" + addrTo,
-    //         "method": "GET"
-    //     };
-
-    //     $.ajax(settings).done(function (response) {
-    //         lngTo = response["features"][0]["geometry"].coordinates[0]
-    //         latTo = response["features"][0]["geometry"].coordinates[1]
-    //         computeRoute([lat, lng], [latTo, lngTo])
-    //     });
-    // });
-
-
-
-    //call http://localhost:5157/api/LGBiking/Position/{address}
-
-    $.ajax({
-        url: "http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/rest/Position/" + addrFrom,
-        type: "GET",
-        success: function (data) {
-            if(data === undefined) {
-                alert("Adresse de départ non trouvée")
-            }
-            else{
-                lng = data["longitude"]
-                lat = data["latitude"]
-                $.ajax({
-                    url: "http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/rest/Position/" + addrTo,
-                    type: "GET",
-                    success: function (data) {
-                        if(data === undefined) {
-                            alert("Adresse d'arrivée non trouvée")
-                        }
-                        else{
-                            lngTo = data["longitude"]
-                            latTo = data["latitude"]
-                            computeRoute([lat, lng], [latTo, lngTo])
-                        }
-                    }
-                });
-            }
-            
-        },
-        error: function (data) {
-            alert("Erreur lors de la requête pour chercher l'adresse.")
+        } else {
+            alert("Geolocation is not supported by this browser. PLease enter a Start Address");
+            return;
         }
-    });
+    }
+
+    var addrTo = document.querySelector("#locationDest").value.replaceAll(" ", "+")
+    if (addrTo === "") {
+        alert("Please enter a Destination Address");
+        return;
+    }
+    if(lat === 0 && lng === 0){
+        $.ajax({
+            url: "http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/rest/Position/" + addrFrom,
+            type: "GET",
+            success: function (data) {
+                if((data === undefined || data === null || data === "") && (lat === 0 && lng === 0)) {
+                    alert("Adresse de départ non trouvée")
+                }
+                else{
+                    if (lat === 0 && lng === 0) {
+                        lng = data["longitude"]
+                        lat = data["latitude"]
+                    }
+                }
+                
+            },
+            error: function (data) {
+                alert("Erreur lors de la requête pour chercher l'adresse de départ.")
+            }
+        });
+    }
+    else {
+        $.ajax({
+            url: "http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/rest/Position/" + addrTo,
+            type: "GET",
+            success: function (data) {
+                if(data === undefined || data === null || data === "") {
+                    alert("Adresse d'arrivée non trouvée")
+                }
+                else{
+                    lngTo = data["longitude"]
+                    latTo = data["latitude"]
+                    computeRoute([lat, lng], [latTo, lngTo])
+                }
+            },
+            error: function (data) {
+                alert("Erreur lors de la requête pour chercher l'adresse d'arrivée.")
+            }
+        });
+    }
 }
 
 function toggleClass() {
