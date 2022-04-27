@@ -42,7 +42,16 @@ namespace LetsGoBiking_tc.RoutingWCF.Services
 
         public async Task<List<Station>> GetStationsAsync()
         {
-            return _stations ??= JsonConvert.DeserializeObject<List<Station>>(await _proxyService.GetStationsAsync());
+            return _stations ??= JsonConvert.DeserializeObject<List<Station>>(await _proxyService.GetStationsAsync(), new JsonSerializerSettings
+            {
+                Culture = CultureInfo.GetCultureInfo("fr-FR"),
+                DateFormatString = "dd/MM/yyyy HH:mm:ss",
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc,
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+                Formatting = Formatting.Indented
+            });
         }
 
         public async Task<List<Station>> GetStationsCityAsync(string city)
