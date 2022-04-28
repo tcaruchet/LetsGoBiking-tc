@@ -134,36 +134,30 @@ function PathComputing(e) {
             },
             error: function (data) {
                 alert("Erreur lors de la requête pour chercher l'adresse de départ.")
-            },
-            complete: function () {
                 $("#submit").attr('disabled', false);
                 $("#submit").html('Je pars !');
-            } 
+            }
         });
     }
-    else {
-        $.ajax({
-            url: "http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/rest/Position/" + addrTo,
-            type: "GET",
-            success: function (data) {
-                if(data === undefined || data === null || data === "") {
-                    alert("Adresse d'arrivée non trouvée")
-                }
-                else{
-                    lngTo = data["longitude"]
-                    latTo = data["latitude"]
-                    computeRoute([lat, lng], [latTo, lngTo])
-                }
-            },
-            error: function (data) {
-                alert("Erreur lors de la requête pour chercher l'adresse d'arrivée.")
-            },
-            complete: function () {
-                $("#submit").attr('disabled', false);
-                $("#submit").html('Je pars !');
-            } 
-        });
-    }
+    $.ajax({
+        url: "http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/rest/Position/" + addrTo,
+        type: "GET",
+        success: function (data) {
+            if(data === undefined || data === null || data === "") {
+                alert("Adresse d'arrivée non trouvée")
+            }
+            else{
+                lngTo = data["longitude"]
+                latTo = data["latitude"]
+                computeRoute([lat, lng], [latTo, lngTo])
+            }
+        },
+        error: function (data) {
+            alert("Erreur lors de la requête pour chercher l'adresse d'arrivée.")
+            $("#submit").attr('disabled', false);
+            $("#submit").html('Je pars !');
+        }
+    });
 }
 
 function toggleClass() {
