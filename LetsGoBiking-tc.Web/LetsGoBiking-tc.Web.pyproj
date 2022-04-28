@@ -16,6 +16,7 @@
     <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
     <Name>LetsGoBiking-tc.Web</Name>
     <RootNamespace>LetsGoBiking-tc.Web</RootNamespace>
+    <WebBrowserPort>8009</WebBrowserPort>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,7 +33,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.html" />
-    <Content Include="oldindex.html" />
     <Content Include="lgbiking-tc.js" />
     <Content Include="style.css" />
   </ItemGroup>

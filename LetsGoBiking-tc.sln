@@ -3,15 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LetsGoBiking-tc.Routing", "LetsGoBiking-tc.Routing\LetsGoBiking-tc.Routing.csproj", "{9A7E6640-67B4-4330-A504-10CB5894E9C6}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LetsGoBiking-tc.Lib", "LetsGoBiking-tc.Lib\LetsGoBiking-tc.Lib.csproj", "{91A8CD54-4139-4FFD-938D-893F2B07B7E6}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LetsGoBiking-tc.Proxy", "LetsGoBiking-tc.Proxy\LetsGoBiking-tc.Proxy.csproj", "{ADC98DDC-40C3-4241-BA1D-3E93FC9A700D}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LetsGoBiking-tc.WF", "LetsGoBiking-tc.WF\LetsGoBiking-tc.WF.csproj", "{09F33CCA-8BCE-4CF3-9362-2CF69C9DA7A8}"
-EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "LetsGoBiking-tc.Web", "LetsGoBiking-tc.Web\LetsGoBiking-tc.Web.pyproj", "{C686F130-6CBD-4F31-A2DC-6C3282B53AE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LetsGoBiking_tc.RoutingWCF", "LetsGoBiking-tc.RoutingWCF\LetsGoBiking_tc.RoutingWCF.csproj", "{00741716-1F4D-425B-A260-576B8FD23E83}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6A4A1358-3385-431B-9FA1-652F98E38288} = {6A4A1358-3385-431B-9FA1-652F98E38288}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LetsGoBiking_tc.Proxy", "LetsGoBiking-tc.Proxy\LetsGoBiking_tc.Proxy.csproj", "{6A4A1358-3385-431B-9FA1-652F98E38288}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LetsGoBiking_tc.Lib", "LetsGoBiking-tc.Lib\LetsGoBiking_tc.Lib.csproj", "{F32C0202-947D-4AA9-A35E-47F254A70F69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LetsGoBiking_tc.WF", "LetsGoBiking_tc.WF\LetsGoBiking_tc.WF.csproj", "{9895E1DA-2649-4F7C-87EC-1304FE220E51}"
+	ProjectSection(ProjectDependencies) = postProject
+		{00741716-1F4D-425B-A260-576B8FD23E83} = {00741716-1F4D-425B-A260-576B8FD23E83}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LetsGoBiking_tc.Host", "LetsGoBiking_tc.Host\LetsGoBiking_tc.Host.csproj", "{001D09F8-DA4D-467C-AAFF-08DB0D8D9247}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,26 +27,30 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9A7E6640-67B4-4330-A504-10CB5894E9C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9A7E6640-67B4-4330-A504-10CB5894E9C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9A7E6640-67B4-4330-A504-10CB5894E9C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9A7E6640-67B4-4330-A504-10CB5894E9C6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{91A8CD54-4139-4FFD-938D-893F2B07B7E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{91A8CD54-4139-4FFD-938D-893F2B07B7E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{91A8CD54-4139-4FFD-938D-893F2B07B7E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{91A8CD54-4139-4FFD-938D-893F2B07B7E6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ADC98DDC-40C3-4241-BA1D-3E93FC9A700D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ADC98DDC-40C3-4241-BA1D-3E93FC9A700D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ADC98DDC-40C3-4241-BA1D-3E93FC9A700D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ADC98DDC-40C3-4241-BA1D-3E93FC9A700D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{09F33CCA-8BCE-4CF3-9362-2CF69C9DA7A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{09F33CCA-8BCE-4CF3-9362-2CF69C9DA7A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{09F33CCA-8BCE-4CF3-9362-2CF69C9DA7A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{09F33CCA-8BCE-4CF3-9362-2CF69C9DA7A8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C686F130-6CBD-4F31-A2DC-6C3282B53AE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C686F130-6CBD-4F31-A2DC-6C3282B53AE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C686F130-6CBD-4F31-A2DC-6C3282B53AE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C686F130-6CBD-4F31-A2DC-6C3282B53AE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00741716-1F4D-425B-A260-576B8FD23E83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00741716-1F4D-425B-A260-576B8FD23E83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00741716-1F4D-425B-A260-576B8FD23E83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00741716-1F4D-425B-A260-576B8FD23E83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A4A1358-3385-431B-9FA1-652F98E38288}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A4A1358-3385-431B-9FA1-652F98E38288}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A4A1358-3385-431B-9FA1-652F98E38288}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A4A1358-3385-431B-9FA1-652F98E38288}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F32C0202-947D-4AA9-A35E-47F254A70F69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F32C0202-947D-4AA9-A35E-47F254A70F69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F32C0202-947D-4AA9-A35E-47F254A70F69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F32C0202-947D-4AA9-A35E-47F254A70F69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9895E1DA-2649-4F7C-87EC-1304FE220E51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9895E1DA-2649-4F7C-87EC-1304FE220E51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9895E1DA-2649-4F7C-87EC-1304FE220E51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9895E1DA-2649-4F7C-87EC-1304FE220E51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{001D09F8-DA4D-467C-AAFF-08DB0D8D9247}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{001D09F8-DA4D-467C-AAFF-08DB0D8D9247}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{001D09F8-DA4D-467C-AAFF-08DB0D8D9247}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{001D09F8-DA4D-467C-AAFF-08DB0D8D9247}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

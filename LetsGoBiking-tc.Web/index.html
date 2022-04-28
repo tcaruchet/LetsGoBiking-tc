@@ -229,10 +229,15 @@
                
                 <div id="struct_validation">
                     <div class="content_button">
-                        <button onclick="PathComputing(event)" class="button btn btn-success">
+                        <!-- <button onclick="PathComputing(event)" class="button btn btn-success">
                             <span class="submit">Je pars !</span>
                             <span class="loading"><i class="fa fa-refresh"></i></span>
                             <span class="check"><i class="fa fa-check"></i></span>
+                        </button> -->
+
+                        <button id="submit"  class="button btn btn-success active" type="button">
+                            <span id="loadingspinner" class="spinner-border spinner-border-sm" role="status" style="display:none;"></span>
+                            Je pars !
                         </button>
                     </div>
                 </div>

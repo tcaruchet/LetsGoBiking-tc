@@ -78,73 +78,79 @@ function drawLine(arr, couleur) {
     //    map.addLayer(vectorLayer);
 }
 
+$(document).ready(function () {
+     $('#submit').click(function (event) {
+           $(this).attr('disabled', 'disabled');
+           $(this).html('Chargement...');
+           PathComputing(event);
+     });
+   });
+
+
 function PathComputing(e) {
     e.preventDefault()
-
     var lat, lng;
 
     var addrFrom = document.querySelector("#locationOrigin").value.replaceAll(" ", "+")
+    if (addrFrom === "") {
+        alert("Please enter a Departure Address");
+        $("#submit").attr('disabled', false);
+        $("#submit").html('Je pars !');
+        return;
+    }
+
     var addrTo = document.querySelector("#locationDest").value.replaceAll(" ", "+")
-
-    // const settings = {
-    //     "async": true,
-    //     "crossDomain": true,
-    //     "url": "https://api-adresse.data.gouv.fr/search/?q=" + addrFrom,
-    //     "method": "GET"
-    // };
-
-    // $.ajax(settings).done(function (response) {
-    //     lng = response["features"][0]["geometry"].coordinates[0]
-    //     lat = response["features"][0]["geometry"].coordinates[1]
-    //     const settings = {
-    //         "async": true,
-    //         "crossDomain": true,
-    //         "url": "https://api-adresse.data.gouv.fr/search/?q=" + addrTo,
-    //         "method": "GET"
-    //     };
-
-    //     $.ajax(settings).done(function (response) {
-    //         lngTo = response["features"][0]["geometry"].coordinates[0]
-    //         latTo = response["features"][0]["geometry"].coordinates[1]
-    //         computeRoute([lat, lng], [latTo, lngTo])
-    //     });
-    // });
-
-
-
-    //call http://localhost:5157/api/LGBiking/Position/{address}
-
+    if (addrTo === "") {
+        alert("Please enter a Destination Address");
+        $("#submit").attr('disabled', false);
+        $("#submit").html('Je pars !');
+        return;
+    }
     $.ajax({
-        url: "http://localhost:5157/api/LGBiking/Position/" + addrFrom,
+        url: "http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/rest/Position/" + addrFrom,
         type: "GET",
         success: function (data) {
-            if(data === undefined) {
+            if((data === undefined || data === null || data === "")) {
                 alert("Adresse de départ non trouvée")
+                $("#submit").attr('disabled', false);
+                $("#submit").html('Je pars !');
+                return;
             }
             else{
                 lng = data["longitude"]
                 lat = data["latitude"]
                 $.ajax({
-                    url: "http://localhost:5157/api/LGBiking/Position/" + addrTo,
+                    url: "http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/rest/Position/" + addrTo,
                     type: "GET",
                     success: function (data) {
-                        if(data === undefined) {
+                        if(data === undefined || data === null || data === "") {
                             alert("Adresse d'arrivée non trouvée")
+                            $("#submit").attr('disabled', false);
+                            $("#submit").html('Je pars !');
+                            return;
                         }
                         else{
                             lngTo = data["longitude"]
                             latTo = data["latitude"]
                             computeRoute([lat, lng], [latTo, lngTo])
                         }
+                    },
+                    error: function (data) {
+                        alert("Erreur lors de la requête pour chercher l'adresse d'arrivée.")
+                        $("#submit").attr('disabled', false);
+                        $("#submit").html('Je pars !');
                     }
                 });
             }
             
         },
         error: function (data) {
-            alert("Erreur lors de la requête pour chercher l'adresse.")
+            alert("Erreur lors de la requête pour chercher l'adresse de départ.")
+            $("#submit").attr('disabled', false);
+            $("#submit").html('Je pars !');
         }
     });
+    
 }
 
 function toggleClass() {
@@ -163,11 +169,11 @@ function clearAllLayers() {
     })
 }
 
-function addMarkers(currentPositionMap){
+function addMarkers(currentPositionMap, distance){
     //clearAllLayers()
     //call ajax ttp://localhost:5157/api/LGBiking/Stations/Around/addrFrom/addrTo
     $.ajax({
-        url: "http://localhost:5157/api/LGBiking/Stations/Around/" + currentPositionMap[0] + "/" + currentPositionMap[1],
+        url: "http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/rest/Stations/Around/" + currentPositionMap[1] + "/" + currentPositionMap[0] + "/" + distance,
         type: "GET",
         success: function (data) {
             if(data === undefined || data === []) {
@@ -219,10 +225,15 @@ function addMarkers(currentPositionMap){
                 });
                 map.addLayer(vectorLayer);
                 console.log("markers added")
+                
             }
         },
         error: function (data) {
             alert("Erreur lors de la requête pour chercher les stations.")
+        },
+        complete: function () {
+            $("#submit").attr('disabled', false);
+            $("#submit").html('Je pars !');
         }   
     });
 
@@ -236,7 +247,7 @@ function computeRoute(addrFrom, addrTo) {
 
     //call http://localhost:5157/api/LGBiking/Route/Path with ajax
     $.ajax({
-        url: "http://localhost:5157/api/LGBiking/Route/Path/Complete",
+        url: "http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/rest/Route/Path",
         type: "POST",
         data: JSON.stringify([
             {
@@ -256,9 +267,12 @@ function computeRoute(addrFrom, addrTo) {
             // pour draw la line, on va recup le res de l'appel vers l'API en prenant geometry -> coordinates et chaque pts representeront la line a tracer
             // var res = JSON.parse(data)
 
+            var totalDistance = 0
+            
             if(data["type"] === "foot-walking"){
                 //draw only foot walking
                 drawLine(data["features"][0]["geometry"]["coordinates"], '#7700B3')
+                totalDistance = data["features"][0]["properties"]["summary"]["distance"]
             }
             else if (data["type"] === "walking-cycling"){
                 //draw only walking-cycling
@@ -268,18 +282,24 @@ function computeRoute(addrFrom, addrTo) {
                 drawLine(data["features"][1]["geometry"]["coordinates"], '#00B3E6')
                 // features[2] go from station end to addrTo walking
                 drawLine(data["features"][2]["geometry"]["coordinates"], '#7700B3')
+                totalDistance = data["features"][0]["properties"]["summary"]["distance"] + data["features"][1]["properties"]["summary"]["distance"] + data["features"][2]["properties"]["summary"]["distance"]
+                addMarkers(data["features"][1]["geometry"]["coordinates"][0], totalDistance)
+                addMarkers(data["features"][2]["geometry"]["coordinates"][0], totalDistance)
             }
             else{
                 //draw only cycling
                 drawLine(data["features"][0]["geometry"]["coordinates"], '#00B3E6')
+                totalDistance = data["features"][0]["properties"]["summary"]["distance"]
+                addMarkers(data["features"][2]["geometry"]["coordinates"][0], totalDistance)
             }
-
-            //get current position center of Map
-            addMarkers(addrFrom)
         },
         error: function (err) {
             console.log(err)
-        }
+        },
+        complete: function () {
+            $("#submit").attr('disabled', false);
+            $("#submit").html('Je pars !');
+        } 
     });
 
 
