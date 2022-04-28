@@ -8,7 +8,7 @@ using LetsGoBiking_tc.RoutingWCF.Models;
 using Newtonsoft.Json;
 using static LetsGoBiking_tc.Lib.Helpers;
 
-namespace LetsGoBiking_tc.RoutingWCF
+namespace LetsGoBiking_tc.RoutingWCF.Externals
 {
     internal class OpenStreetMapAPI
     {

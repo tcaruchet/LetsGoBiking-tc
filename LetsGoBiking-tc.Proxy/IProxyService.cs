@@ -11,21 +11,21 @@ namespace LetsGoBiking_tc.Proxy
         [WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare,
-            UriTemplate = "GetStations")]
+            UriTemplate = "Stations")]
         Task<string> GetStationsAsync();
 
         [OperationContract]
         [WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare,
-            UriTemplate = "GetStation/{city}")]
+            UriTemplate = "Station/{city}")]
         Task<string> GetStationsCityAsync(string city);
 
         [OperationContract]
         [WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare,
-            UriTemplate = "GetStation/{city}/{id}")]
+            UriTemplate = "Station/{city}/{id}")]
         Task<string> GetStationAsync(string city, string id);
 
         

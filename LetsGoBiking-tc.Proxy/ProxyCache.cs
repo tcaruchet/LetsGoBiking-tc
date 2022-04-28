@@ -14,22 +14,14 @@ namespace LetsGoBiking_tc.Proxy
             _defaultHandler = defaultHandler;
         }
 
-        public async Task<T> Get(string key)
-        {
-            return await Get(key, 60);
-        }
+        public async Task<T> Get(string key) => await Get(key, 5);
 
-        public async Task<T> Get(string key, double seconds)
-        {
-            return await Get(key, DateTimeOffset.Now.AddSeconds(seconds));
-        }
+        public async Task<T> Get(string key, double minutes) => await Get(key, DateTimeOffset.Now.AddMinutes(minutes));
 
         public async Task<T> Get(string key, DateTimeOffset offset)
         {
             if (_cache.Get(key) is T x)
-            {
                 return x;
-            }
 
             var value = (await _defaultHandler(key))!;
             _cache.Add(key, value, offset);
