@@ -21,13 +21,14 @@ namespace LetsGoBiking_tc.WF
             InitializeComponent();
         }
 
+        BikeRoutingServiceClient client = new BikeRoutingServiceClient();
+
         private async void BtnGetStations_Click(object sender, EventArgs e)
         {
             DateTime startDate = DateTime.Now;
             string url = "";
             try
             {
-                var client = new BikeRoutingServiceClient();
                 //if client is not opened
                 var stations = await client.GetStationsAsync();
                 Stations = new List<Station>(stations);
@@ -60,10 +61,11 @@ namespace LetsGoBiking_tc.WF
             else
             {
                 DateTime startDate = DateTime.Now;
+                string url = "";
                 try
                 {
-                    var client = new BikeRoutingServiceClient();
                     var stations = await client.GetStationsAsync();
+                    url = client.Endpoint.Address.Uri.ToString();
                     Stations = new List<Station>(stations);
                 }
                 catch (Exception ex)
@@ -73,6 +75,9 @@ namespace LetsGoBiking_tc.WF
                 DateTime endDate = DateTime.Now;
                 var orderedStations = this.Stations.OrderBy(s => s.contractName).ToList();
                 this.DtgStations.DataSource = orderedStations;
+                LblUrlRequest.Text = $"URL : {url}";
+                LblTimeLastRequest.Text = $"Time : {endDate.Subtract(startDate).TotalMilliseconds} ms";
+                LblSizeRequest.Text = $"Size : 4567899 bytes";                
             }
         }
 
@@ -82,7 +87,6 @@ namespace LetsGoBiking_tc.WF
             string url = "";
             try
             {
-                var client = new BikeRoutingServiceClient();
                 //if client is not opened
                 //get Position for start and end
                 JCDPosition positionStart = await client.GetPositionAsync(TxtStartAddress.Text);
@@ -117,6 +121,27 @@ namespace LetsGoBiking_tc.WF
             LblUrlRequest.Text = $"URL : {url}";
             LblTimeLastRequest.Text = $"Time : {endDate.Subtract(startDate).TotalMilliseconds} ms";
             LblSizeRequest.Text = $"Size : 67555 bytes";
+        }
+
+        private async void BtnTestCache_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //create request without the use of the cache
+                var clientLocal = new BikeRoutingServiceClient();
+                DateTime startDate1 = DateTime.Now;
+                _ = await clientLocal.GetStationsAsync();
+                DateTime endDate1 = DateTime.Now;
+                //create request with the use of the cache
+                DateTime startDate2 = DateTime.Now;
+                _ = await clientLocal.GetStationsAsync();
+                DateTime endDate2 = DateTime.Now;
+                MessageBox.Show($"Without cache : {endDate1.Subtract(startDate1).TotalMilliseconds} ms\nWith cache : {endDate2.Subtract(startDate2).TotalMilliseconds} ms");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

@@ -49,6 +49,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.BtnTestCache = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DtgStations)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -98,6 +99,7 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.LblSizeRequest);
             this.groupBox1.Controls.Add(this.LblUrlRequest);
+            this.groupBox1.Controls.Add(this.BtnTestCache);
             this.groupBox1.Controls.Add(this.LblTimeLastRequest);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label3);
@@ -281,6 +283,19 @@
             this.label4.TabIndex = 0;
             this.label4.Text = "Adresse de Départ";
             // 
+            // BtnTestCache
+            // 
+            this.BtnTestCache.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.BtnTestCache.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.BtnTestCache.Location = new System.Drawing.Point(517, 76);
+            this.BtnTestCache.Name = "BtnTestCache";
+            this.BtnTestCache.Size = new System.Drawing.Size(136, 23);
+            this.BtnTestCache.TabIndex = 2;
+            this.BtnTestCache.Text = "Tester le Cache";
+            this.BtnTestCache.UseVisualStyleBackColor = false;
+            this.BtnTestCache.Click += new System.EventHandler(this.BtnTestCache_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -328,6 +343,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridView DtgRoute;
+        private System.Windows.Forms.Button BtnTestCache;
     }
 }
 
