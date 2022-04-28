@@ -119,6 +119,28 @@ function PathComputing(e) {
             else{
                 lng = data["longitude"]
                 lat = data["latitude"]
+                $.ajax({
+                    url: "http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/rest/Position/" + addrTo,
+                    type: "GET",
+                    success: function (data) {
+                        if(data === undefined || data === null || data === "") {
+                            alert("Adresse d'arrivée non trouvée")
+                            $("#submit").attr('disabled', false);
+                            $("#submit").html('Je pars !');
+                            return;
+                        }
+                        else{
+                            lngTo = data["longitude"]
+                            latTo = data["latitude"]
+                            computeRoute([lat, lng], [latTo, lngTo])
+                        }
+                    },
+                    error: function (data) {
+                        alert("Erreur lors de la requête pour chercher l'adresse d'arrivée.")
+                        $("#submit").attr('disabled', false);
+                        $("#submit").html('Je pars !');
+                    }
+                });
             }
             
         },
@@ -128,28 +150,7 @@ function PathComputing(e) {
             $("#submit").html('Je pars !');
         }
     });
-    $.ajax({
-        url: "http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/rest/Position/" + addrTo,
-        type: "GET",
-        success: function (data) {
-            if(data === undefined || data === null || data === "") {
-                alert("Adresse d'arrivée non trouvée")
-                $("#submit").attr('disabled', false);
-                $("#submit").html('Je pars !');
-                return;
-            }
-            else{
-                lngTo = data["longitude"]
-                latTo = data["latitude"]
-                computeRoute([lat, lng], [latTo, lngTo])
-            }
-        },
-        error: function (data) {
-            alert("Erreur lors de la requête pour chercher l'adresse d'arrivée.")
-            $("#submit").attr('disabled', false);
-            $("#submit").html('Je pars !');
-        }
-    });
+    
 }
 
 function toggleClass() {

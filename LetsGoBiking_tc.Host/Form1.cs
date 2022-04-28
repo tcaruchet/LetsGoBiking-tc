@@ -78,25 +78,26 @@ namespace LetsGoBiking_tc.Host
         private void BtnStartWeb_Click(object sender, EventArgs e)
         {
             //call cmd command to start LetsGoBiking_tc.Web server.py in ../../../LetsGoBiking_tc.Web
-            Process p = new Process();
-            ProcessStartInfo info = new ProcessStartInfo();
-            info.FileName = "cmd.exe";
-            info.RedirectStandardInput = true;
-            info.UseShellExecute = false;
+            //Process p = new Process();
+            //ProcessStartInfo info = new ProcessStartInfo();
+            //info.FileName = "cmd.exe";
+            //info.RedirectStandardInput = true;
+            //info.UseShellExecute = false;
 
-            p.StartInfo = info;
-            p.Start();
+            //p.StartInfo = info;
+            //p.Start();
 
-            using (StreamWriter sw = p.StandardInput)
-            {
-                if (sw.BaseStream.CanWrite)
-                {
-                    sw.WriteLine("cd ..\\..\\..\\LetsGoBiking-tc.Web");
-                    sw.WriteLine("py ./server.py");
-                }
-            }
+            //using (StreamWriter sw = p.StandardInput)
+            //{
+            //    if (sw.BaseStream.CanWrite)
+            //    {
+            //        sw.WriteLine("cd ..\\..\\..\\LetsGoBiking-tc.Web");
+            //        sw.WriteLine("py ./server.py");
+            //    }
+            //}
 
-            p.WaitForExit();
+            //p.WaitForExit();
+            MessageBox.Show("Not implemented yet, Lancez le site via la commande py server.py dans le dossier LetsGoBiking-tc.Web");
         }
     }
 }
