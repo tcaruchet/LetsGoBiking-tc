@@ -79,11 +79,11 @@
     <Compile Include="Models\GeoJson.cs" />
     <Compile Include="Models\OSMPlace.cs" />
     <Compile Include="Models\OSMReversePlace.cs" />
-    <Compile Include="OpenStreetMapAPI.cs" />
+    <Compile Include="Externals\OpenStreetMapAPI.cs" />
     <Compile Include="Services\Interfaces\IBikeRoutingService.cs" />
     <Compile Include="Models\JCDPosition.cs" />
     <Compile Include="Models\Station.cs" />
-    <Compile Include="OpenRouteAPI.cs" />
+    <Compile Include="Externals\OpenRouteAPI.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BikeRoutingService.cs" />
@@ -123,9 +123,7 @@
       <Name>LetsGoBiking_tc.Lib</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Externals\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <VSToolsPath Condition="'$(VSToolsPath)' == '' and '$(VisualStudioVersion)' != '' and '$(VisualStudioVersion)' != '11.0'">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

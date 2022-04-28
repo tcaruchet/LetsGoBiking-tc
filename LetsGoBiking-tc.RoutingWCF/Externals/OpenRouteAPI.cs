@@ -8,7 +8,7 @@ using System.Web;
 using LetsGoBiking_tc.RoutingWCF.Models;
 using static LetsGoBiking_tc.Lib.Helpers;
 
-namespace LetsGoBiking_tc.RoutingWCF
+namespace LetsGoBiking_tc.RoutingWCF.Externals
 {
     internal class OpenRouteAPI
     {
