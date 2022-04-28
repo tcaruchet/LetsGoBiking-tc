@@ -172,6 +172,8 @@ function clearAllLayers() {
 function addMarkers(currentPositionMap, distance){
     //clearAllLayers()
     //call ajax ttp://localhost:5157/api/LGBiking/Stations/Around/addrFrom/addrTo
+    if(distance < 100)
+        distance = 500
     $.ajax({
         url: "http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/rest/Stations/Around/" + currentPositionMap[1] + "/" + currentPositionMap[0] + "/" + distance,
         type: "GET",
@@ -290,7 +292,7 @@ function computeRoute(addrFrom, addrTo) {
                 //draw only cycling
                 drawLine(data["features"][0]["geometry"]["coordinates"], '#00B3E6')
                 totalDistance = data["features"][0]["properties"]["summary"]["distance"]
-                addMarkers(data["features"][2]["geometry"]["coordinates"][0], totalDistance)
+                addMarkers(data["features"][0]["geometry"]["coordinates"][0], totalDistance)
             }
         },
         error: function (err) {
