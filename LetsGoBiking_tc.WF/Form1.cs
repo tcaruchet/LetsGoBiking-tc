@@ -23,10 +23,10 @@ namespace LetsGoBiking_tc.WF
         private async void BtnGetStations_Click(object sender, EventArgs e)
         {
             DateTime startDate = DateTime.Now;
-            var client = new BikeRoutingServiceClient();
-            //if client is not opened
             try
             {
+                var client = new BikeRoutingServiceClient();
+                //if client is not opened
                 var stations = await client.GetStationsAsync();
                 Stations = new List<Station>(stations);
             }

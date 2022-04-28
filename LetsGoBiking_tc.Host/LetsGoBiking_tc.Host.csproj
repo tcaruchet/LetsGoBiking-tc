@@ -89,6 +89,10 @@
       <Project>{00741716-1f4d-425b-a260-576b8fd23e83}</Project>
       <Name>LetsGoBiking_tc.RoutingWCF</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LetsGoBiking_tc.WF\LetsGoBiking_tc.WF.csproj">
+      <Project>{9895e1da-2649-4f7c-87ec-1304fe220e51}</Project>
+      <Name>LetsGoBiking_tc.WF</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

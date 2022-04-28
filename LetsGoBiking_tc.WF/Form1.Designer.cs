@@ -67,7 +67,8 @@
             this.Controls.Add(this.BtnGetStations);
             this.Controls.Add(this.DtgStations);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.ShowIcon = false;
+            this.Text = "LetsGoBiking_tc - Dashboard";
             ((System.ComponentModel.ISupportInitialize)(this.DtgStations)).EndInit();
             this.ResumeLayout(false);
 

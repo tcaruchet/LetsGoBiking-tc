@@ -29,31 +29,48 @@ namespace LetsGoBiking_tc.Host
             {
                 host = new ServiceHost(typeof(BikeRoutingService));
                 host.Open();
-                LblStatusRouting.Text = "Routing Service Started";
+                LblStatusRouting.Text = "Démarrés";
+                LblStatusRouting.ForeColor = Color.Green;
                 isHosted = true;
-                BtnStartRouting.Text = "Stop Routing Service";
+                BtnStartRouting.Text = "Arrêter";
             }
             else
             {
                 host.Close();
-                LblStatusRouting.Text = "Routing Service Stopped";
+                LblStatusRouting.Text = "Arrêtés";
+                LblStatusRouting.ForeColor = Color.Red;
                 isHosted = false;
-                BtnStartRouting.Text = "Start Routing Service";
+                BtnStartRouting.Text = "Démarrer";
             }
            
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            LblStatusRouting.Text = "Routing Service Stopped";
+            LblStatusRouting.Text = "Arrêtés";
+            LblStatusRouting.ForeColor = Color.Red;
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (isHosted)
-            {
                 host.Close();
-            }
+        }
+
+        private void BtnStartWF_Click(object sender, EventArgs e)
+        {
+            LetsGoBiking_tc.WF.Form1 form = new LetsGoBiking_tc.WF.Form1();
+            form.Show();
+            form.Closed += (s, args) =>
+            {
+                form.Dispose();
+            };
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (isHosted)
+                host.Close();
         }
     }
 }
