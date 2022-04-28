@@ -78,9 +78,16 @@ function drawLine(arr, couleur) {
     //    map.addLayer(vectorLayer);
 }
 
+$(document).ready(function () {
+     $('#submit').click(function (event) {
+           $(this).attr('disabled', 'disabled');
+           $(this).html('Chargement...');
+           PathComputing(event);
+     });
+   });
+
 function PathComputing(e) {
     e.preventDefault()
-
     var lat, lng;
 
     var addrFrom = document.querySelector("#locationOrigin").value.replaceAll(" ", "+")
@@ -127,7 +134,11 @@ function PathComputing(e) {
             },
             error: function (data) {
                 alert("Erreur lors de la requête pour chercher l'adresse de départ.")
-            }
+            },
+            complete: function () {
+                $("#submit").attr('disabled', false);
+                $("#submit").html('Je pars !');
+            } 
         });
     }
     else {
@@ -146,7 +157,11 @@ function PathComputing(e) {
             },
             error: function (data) {
                 alert("Erreur lors de la requête pour chercher l'adresse d'arrivée.")
-            }
+            },
+            complete: function () {
+                $("#submit").attr('disabled', false);
+                $("#submit").html('Je pars !');
+            } 
         });
     }
 }
@@ -223,10 +238,15 @@ function addMarkers(currentPositionMap, distance){
                 });
                 map.addLayer(vectorLayer);
                 console.log("markers added")
+                
             }
         },
         error: function (data) {
             alert("Erreur lors de la requête pour chercher les stations.")
+        },
+        complete: function () {
+            $("#submit").attr('disabled', false);
+            $("#submit").html('Je pars !');
         }   
     });
 
@@ -285,10 +305,15 @@ function computeRoute(addrFrom, addrTo) {
 
             //get current position center of Map
             addMarkers(addrFrom, totalDistance)
+
         },
         error: function (err) {
             console.log(err)
-        }
+        },
+        complete: function () {
+            $("#submit").attr('disabled', false);
+            $("#submit").html('Je pars !');
+        } 
     });
 
 

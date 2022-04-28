@@ -21,13 +21,13 @@ namespace LetsGoBiking_tc.Host
         }
 
         bool isHosted = false;
-        ServiceHost host = new ServiceHost(typeof(BikeRoutingService));
-
+        ServiceHost host;
 
         private void BtnStartRouting_Click(object sender, EventArgs e)
         {
             if (!isHosted)
             {
+                host = new ServiceHost(typeof(BikeRoutingService));
                 host.Open();
                 LblStatusRouting.Text = "Routing Service Started";
                 isHosted = true;
