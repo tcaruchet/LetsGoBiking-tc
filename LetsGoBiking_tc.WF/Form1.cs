@@ -29,16 +29,48 @@ namespace LetsGoBiking_tc.WF
                 //if client is not opened
                 var stations = await client.GetStationsAsync();
                 Stations = new List<Station>(stations);
+                this.DtgStations.DataSource = null;
+                this.DtgStations.Rows.Clear();
+                this.DtgStations.DataSource = Stations;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
             DateTime endDate = DateTime.Now;
-            this.DtgStations.DataSource = Stations;
             //LblUrl.Text = $"URL : http://localhost:5157/api/LGBiking/";
             //LblTime.Text = $"Time : {endDate.Subtract(startDate).TotalMilliseconds} ms";
             //LblSize.Text = $"Size : {response.Length} bytes";
+        }
+
+        private async void BtnOrderByContract_Click(object sender, EventArgs e)
+        {
+            //clear dtgstations
+
+            this.DtgStations.DataSource = null;
+            this.DtgStations.Rows.Clear();
+            if (this.Stations != null && this.Stations.Any())
+            {
+                var orderedStations = Stations.OrderBy(s => s.contractName).ToList();
+                this.DtgStations.DataSource = orderedStations;
+            }
+            else
+            {
+                DateTime startDate = DateTime.Now;
+                try
+                {
+                    var client = new BikeRoutingServiceClient();
+                    var stations = await client.GetStationsAsync();
+                    Stations = new List<Station>(stations);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                DateTime endDate = DateTime.Now;
+                var orderedStations = this.Stations.OrderBy(s => s.contractName).ToList();
+                this.DtgStations.DataSource = orderedStations;
+            }
         }
     }
 }

@@ -30,6 +30,7 @@
         {
             this.DtgStations = new System.Windows.Forms.DataGridView();
             this.BtnGetStations = new System.Windows.Forms.Button();
+            this.BtnOrderByContract = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DtgStations)).BeginInit();
             this.SuspendLayout();
             // 
@@ -46,7 +47,7 @@
             this.DtgStations.ReadOnly = true;
             this.DtgStations.RowHeadersWidth = 51;
             this.DtgStations.RowTemplate.Height = 24;
-            this.DtgStations.Size = new System.Drawing.Size(1220, 525);
+            this.DtgStations.Size = new System.Drawing.Size(541, 525);
             this.DtgStations.TabIndex = 0;
             // 
             // BtnGetStations
@@ -59,11 +60,22 @@
             this.BtnGetStations.UseVisualStyleBackColor = true;
             this.BtnGetStations.Click += new System.EventHandler(this.BtnGetStations_Click);
             // 
+            // BtnOrderByContract
+            // 
+            this.BtnOrderByContract.Location = new System.Drawing.Point(413, 9);
+            this.BtnOrderByContract.Name = "BtnOrderByContract";
+            this.BtnOrderByContract.Size = new System.Drawing.Size(140, 23);
+            this.BtnOrderByContract.TabIndex = 2;
+            this.BtnOrderByContract.Text = "Filtrer par Ville";
+            this.BtnOrderByContract.UseVisualStyleBackColor = true;
+            this.BtnOrderByContract.Click += new System.EventHandler(this.BtnOrderByContract_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1244, 575);
+            this.Controls.Add(this.BtnOrderByContract);
             this.Controls.Add(this.BtnGetStations);
             this.Controls.Add(this.DtgStations);
             this.Name = "Form1";
@@ -78,6 +90,7 @@
 
         private System.Windows.Forms.DataGridView DtgStations;
         private System.Windows.Forms.Button BtnGetStations;
+        private System.Windows.Forms.Button BtnOrderByContract;
     }
 }
 
