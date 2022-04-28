@@ -387,19 +387,24 @@ namespace LetsGoBiking_tc.WF.RoutingService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="RouteParameters", Namespace="http://schemas.datacontract.org/2004/07/LetsGoBiking_tc.RoutingWCF.Services.Inter" +
-        "faces")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="GeoJson", Namespace="http://schemas.datacontract.org/2004/07/LetsGoBiking_tc.RoutingWCF.Models")]
     [System.SerializableAttribute()]
-    public partial class RouteParameters : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class GeoJson : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private LetsGoBiking_tc.WF.RoutingService.JCDPosition endField;
+        private double[] bboxField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private LetsGoBiking_tc.WF.RoutingService.JCDPosition startField;
+        private LetsGoBiking_tc.WF.RoutingService.Feature[] featuresField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private LetsGoBiking_tc.WF.RoutingService.Metadata metadataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string typeField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -412,27 +417,53 @@ namespace LetsGoBiking_tc.WF.RoutingService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public LetsGoBiking_tc.WF.RoutingService.JCDPosition end {
+        public double[] bbox {
             get {
-                return this.endField;
+                return this.bboxField;
             }
             set {
-                if ((object.ReferenceEquals(this.endField, value) != true)) {
-                    this.endField = value;
-                    this.RaisePropertyChanged("end");
+                if ((object.ReferenceEquals(this.bboxField, value) != true)) {
+                    this.bboxField = value;
+                    this.RaisePropertyChanged("bbox");
                 }
             }
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public LetsGoBiking_tc.WF.RoutingService.JCDPosition start {
+        public LetsGoBiking_tc.WF.RoutingService.Feature[] features {
             get {
-                return this.startField;
+                return this.featuresField;
             }
             set {
-                if ((object.ReferenceEquals(this.startField, value) != true)) {
-                    this.startField = value;
-                    this.RaisePropertyChanged("start");
+                if ((object.ReferenceEquals(this.featuresField, value) != true)) {
+                    this.featuresField = value;
+                    this.RaisePropertyChanged("features");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public LetsGoBiking_tc.WF.RoutingService.Metadata metadata {
+            get {
+                return this.metadataField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.metadataField, value) != true)) {
+                    this.metadataField = value;
+                    this.RaisePropertyChanged("metadata");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string type {
+            get {
+                return this.typeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.typeField, value) != true)) {
+                    this.typeField = value;
+                    this.RaisePropertyChanged("type");
                 }
             }
         }
@@ -449,19 +480,27 @@ namespace LetsGoBiking_tc.WF.RoutingService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="GeocodeParameters", Namespace="http://schemas.datacontract.org/2004/07/LetsGoBiking_tc.RoutingWCF.Services.Inter" +
-        "faces")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Metadata", Namespace="http://schemas.datacontract.org/2004/07/LetsGoBiking_tc.RoutingWCF.Models")]
     [System.SerializableAttribute()]
-    public partial class GeocodeParameters : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class Metadata : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private LetsGoBiking_tc.WF.RoutingService.JCDPosition focusField;
+        private string attributionField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string queryField;
+        private LetsGoBiking_tc.WF.RoutingService.Engine engineField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private LetsGoBiking_tc.WF.RoutingService.Query queryField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string serviceField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long timestampField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -474,20 +513,33 @@ namespace LetsGoBiking_tc.WF.RoutingService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public LetsGoBiking_tc.WF.RoutingService.JCDPosition focus {
+        public string attribution {
             get {
-                return this.focusField;
+                return this.attributionField;
             }
             set {
-                if ((object.ReferenceEquals(this.focusField, value) != true)) {
-                    this.focusField = value;
-                    this.RaisePropertyChanged("focus");
+                if ((object.ReferenceEquals(this.attributionField, value) != true)) {
+                    this.attributionField = value;
+                    this.RaisePropertyChanged("attribution");
                 }
             }
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string query {
+        public LetsGoBiking_tc.WF.RoutingService.Engine engine {
+            get {
+                return this.engineField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.engineField, value) != true)) {
+                    this.engineField = value;
+                    this.RaisePropertyChanged("engine");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public LetsGoBiking_tc.WF.RoutingService.Query query {
             get {
                 return this.queryField;
             }
@@ -495,6 +547,712 @@ namespace LetsGoBiking_tc.WF.RoutingService {
                 if ((object.ReferenceEquals(this.queryField, value) != true)) {
                     this.queryField = value;
                     this.RaisePropertyChanged("query");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string service {
+            get {
+                return this.serviceField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.serviceField, value) != true)) {
+                    this.serviceField = value;
+                    this.RaisePropertyChanged("service");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long timestamp {
+            get {
+                return this.timestampField;
+            }
+            set {
+                if ((this.timestampField.Equals(value) != true)) {
+                    this.timestampField = value;
+                    this.RaisePropertyChanged("timestamp");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Feature", Namespace="http://schemas.datacontract.org/2004/07/LetsGoBiking_tc.RoutingWCF.Models")]
+    [System.SerializableAttribute()]
+    public partial class Feature : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double[] bboxField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private LetsGoBiking_tc.WF.RoutingService.Geometry geometryField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private LetsGoBiking_tc.WF.RoutingService.Properties propertiesField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string typeField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double[] bbox {
+            get {
+                return this.bboxField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.bboxField, value) != true)) {
+                    this.bboxField = value;
+                    this.RaisePropertyChanged("bbox");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public LetsGoBiking_tc.WF.RoutingService.Geometry geometry {
+            get {
+                return this.geometryField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.geometryField, value) != true)) {
+                    this.geometryField = value;
+                    this.RaisePropertyChanged("geometry");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public LetsGoBiking_tc.WF.RoutingService.Properties properties {
+            get {
+                return this.propertiesField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.propertiesField, value) != true)) {
+                    this.propertiesField = value;
+                    this.RaisePropertyChanged("properties");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string type {
+            get {
+                return this.typeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.typeField, value) != true)) {
+                    this.typeField = value;
+                    this.RaisePropertyChanged("type");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Geometry", Namespace="http://schemas.datacontract.org/2004/07/LetsGoBiking_tc.RoutingWCF.Models")]
+    [System.SerializableAttribute()]
+    public partial class Geometry : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double[][] coordinatesField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string typeField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double[][] coordinates {
+            get {
+                return this.coordinatesField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.coordinatesField, value) != true)) {
+                    this.coordinatesField = value;
+                    this.RaisePropertyChanged("coordinates");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string type {
+            get {
+                return this.typeField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.typeField, value) != true)) {
+                    this.typeField = value;
+                    this.RaisePropertyChanged("type");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Properties", Namespace="http://schemas.datacontract.org/2004/07/LetsGoBiking_tc.RoutingWCF.Models")]
+    [System.SerializableAttribute()]
+    public partial class Properties : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private LetsGoBiking_tc.WF.RoutingService.Segment[] segmentsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private LetsGoBiking_tc.WF.RoutingService.Summary summaryField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int[] way_pointsField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public LetsGoBiking_tc.WF.RoutingService.Segment[] segments {
+            get {
+                return this.segmentsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.segmentsField, value) != true)) {
+                    this.segmentsField = value;
+                    this.RaisePropertyChanged("segments");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public LetsGoBiking_tc.WF.RoutingService.Summary summary {
+            get {
+                return this.summaryField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.summaryField, value) != true)) {
+                    this.summaryField = value;
+                    this.RaisePropertyChanged("summary");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int[] way_points {
+            get {
+                return this.way_pointsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.way_pointsField, value) != true)) {
+                    this.way_pointsField = value;
+                    this.RaisePropertyChanged("way_points");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Summary", Namespace="http://schemas.datacontract.org/2004/07/LetsGoBiking_tc.RoutingWCF.Models")]
+    [System.SerializableAttribute()]
+    public partial class Summary : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double distanceField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double durationField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double distance {
+            get {
+                return this.distanceField;
+            }
+            set {
+                if ((this.distanceField.Equals(value) != true)) {
+                    this.distanceField = value;
+                    this.RaisePropertyChanged("distance");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double duration {
+            get {
+                return this.durationField;
+            }
+            set {
+                if ((this.durationField.Equals(value) != true)) {
+                    this.durationField = value;
+                    this.RaisePropertyChanged("duration");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Segment", Namespace="http://schemas.datacontract.org/2004/07/LetsGoBiking_tc.RoutingWCF.Models")]
+    [System.SerializableAttribute()]
+    public partial class Segment : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double distanceField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double durationField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private LetsGoBiking_tc.WF.RoutingService.Step[] stepsField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double distance {
+            get {
+                return this.distanceField;
+            }
+            set {
+                if ((this.distanceField.Equals(value) != true)) {
+                    this.distanceField = value;
+                    this.RaisePropertyChanged("distance");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double duration {
+            get {
+                return this.durationField;
+            }
+            set {
+                if ((this.durationField.Equals(value) != true)) {
+                    this.durationField = value;
+                    this.RaisePropertyChanged("duration");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public LetsGoBiking_tc.WF.RoutingService.Step[] steps {
+            get {
+                return this.stepsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.stepsField, value) != true)) {
+                    this.stepsField = value;
+                    this.RaisePropertyChanged("steps");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Step", Namespace="http://schemas.datacontract.org/2004/07/LetsGoBiking_tc.RoutingWCF.Models")]
+    [System.SerializableAttribute()]
+    public partial class Step : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double distanceField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double durationField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string instructionField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string nameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int typeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int[] way_pointsField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double distance {
+            get {
+                return this.distanceField;
+            }
+            set {
+                if ((this.distanceField.Equals(value) != true)) {
+                    this.distanceField = value;
+                    this.RaisePropertyChanged("distance");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double duration {
+            get {
+                return this.durationField;
+            }
+            set {
+                if ((this.durationField.Equals(value) != true)) {
+                    this.durationField = value;
+                    this.RaisePropertyChanged("duration");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string instruction {
+            get {
+                return this.instructionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.instructionField, value) != true)) {
+                    this.instructionField = value;
+                    this.RaisePropertyChanged("instruction");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string name {
+            get {
+                return this.nameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.nameField, value) != true)) {
+                    this.nameField = value;
+                    this.RaisePropertyChanged("name");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int type {
+            get {
+                return this.typeField;
+            }
+            set {
+                if ((this.typeField.Equals(value) != true)) {
+                    this.typeField = value;
+                    this.RaisePropertyChanged("type");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int[] way_points {
+            get {
+                return this.way_pointsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.way_pointsField, value) != true)) {
+                    this.way_pointsField = value;
+                    this.RaisePropertyChanged("way_points");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Engine", Namespace="http://schemas.datacontract.org/2004/07/LetsGoBiking_tc.RoutingWCF.Models")]
+    [System.SerializableAttribute()]
+    public partial class Engine : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime build_dateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.DateTime graph_dateField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string versionField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime build_date {
+            get {
+                return this.build_dateField;
+            }
+            set {
+                if ((this.build_dateField.Equals(value) != true)) {
+                    this.build_dateField = value;
+                    this.RaisePropertyChanged("build_date");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.DateTime graph_date {
+            get {
+                return this.graph_dateField;
+            }
+            set {
+                if ((this.graph_dateField.Equals(value) != true)) {
+                    this.graph_dateField = value;
+                    this.RaisePropertyChanged("graph_date");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string version {
+            get {
+                return this.versionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.versionField, value) != true)) {
+                    this.versionField = value;
+                    this.RaisePropertyChanged("version");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Query", Namespace="http://schemas.datacontract.org/2004/07/LetsGoBiking_tc.RoutingWCF.Models")]
+    [System.SerializableAttribute()]
+    public partial class Query : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double[][] coordinatesField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string formatField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string languageField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string profileField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string unitsField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double[][] coordinates {
+            get {
+                return this.coordinatesField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.coordinatesField, value) != true)) {
+                    this.coordinatesField = value;
+                    this.RaisePropertyChanged("coordinates");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string format {
+            get {
+                return this.formatField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.formatField, value) != true)) {
+                    this.formatField = value;
+                    this.RaisePropertyChanged("format");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string language {
+            get {
+                return this.languageField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.languageField, value) != true)) {
+                    this.languageField = value;
+                    this.RaisePropertyChanged("language");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string profile {
+            get {
+                return this.profileField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.profileField, value) != true)) {
+                    this.profileField = value;
+                    this.RaisePropertyChanged("profile");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string units {
+            get {
+                return this.unitsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.unitsField, value) != true)) {
+                    this.unitsField = value;
+                    this.RaisePropertyChanged("units");
                 }
             }
         }
@@ -519,23 +1277,41 @@ namespace LetsGoBiking_tc.WF.RoutingService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBikeRoutingService/GetStations", ReplyAction="http://tempuri.org/IBikeRoutingService/GetStationsResponse")]
         System.Threading.Tasks.Task<LetsGoBiking_tc.WF.RoutingService.Station[]> GetStationsAsync();
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBikeRoutingService/GetStationsCity", ReplyAction="http://tempuri.org/IBikeRoutingService/GetStationsCityResponse")]
+        LetsGoBiking_tc.WF.RoutingService.Station[] GetStationsCity(string city);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBikeRoutingService/GetStationsCity", ReplyAction="http://tempuri.org/IBikeRoutingService/GetStationsCityResponse")]
+        System.Threading.Tasks.Task<LetsGoBiking_tc.WF.RoutingService.Station[]> GetStationsCityAsync(string city);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBikeRoutingService/GetStation", ReplyAction="http://tempuri.org/IBikeRoutingService/GetStationResponse")]
         LetsGoBiking_tc.WF.RoutingService.Station GetStation(string city, string id);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBikeRoutingService/GetStation", ReplyAction="http://tempuri.org/IBikeRoutingService/GetStationResponse")]
         System.Threading.Tasks.Task<LetsGoBiking_tc.WF.RoutingService.Station> GetStationAsync(string city, string id);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBikeRoutingService/GetRoute", ReplyAction="http://tempuri.org/IBikeRoutingService/GetRouteResponse")]
-        System.IO.Stream GetRoute(LetsGoBiking_tc.WF.RoutingService.RouteParameters points);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBikeRoutingService/FindNearestStation", ReplyAction="http://tempuri.org/IBikeRoutingService/FindNearestStationResponse")]
+        LetsGoBiking_tc.WF.RoutingService.Station FindNearestStation(string latitude, string longitude);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBikeRoutingService/FindNearestStation", ReplyAction="http://tempuri.org/IBikeRoutingService/FindNearestStationResponse")]
+        System.Threading.Tasks.Task<LetsGoBiking_tc.WF.RoutingService.Station> FindNearestStationAsync(string latitude, string longitude);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBikeRoutingService/FindStationsAround", ReplyAction="http://tempuri.org/IBikeRoutingService/FindStationsAroundResponse")]
+        LetsGoBiking_tc.WF.RoutingService.Station[] FindStationsAround(string latitude, string longitude, string radius);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBikeRoutingService/FindStationsAround", ReplyAction="http://tempuri.org/IBikeRoutingService/FindStationsAroundResponse")]
+        System.Threading.Tasks.Task<LetsGoBiking_tc.WF.RoutingService.Station[]> FindStationsAroundAsync(string latitude, string longitude, string radius);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBikeRoutingService/GetPosition", ReplyAction="http://tempuri.org/IBikeRoutingService/GetPositionResponse")]
+        LetsGoBiking_tc.WF.RoutingService.JCDPosition GetPosition(string address);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBikeRoutingService/GetPosition", ReplyAction="http://tempuri.org/IBikeRoutingService/GetPositionResponse")]
+        System.Threading.Tasks.Task<LetsGoBiking_tc.WF.RoutingService.JCDPosition> GetPositionAsync(string address);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBikeRoutingService/GetRoute", ReplyAction="http://tempuri.org/IBikeRoutingService/GetRouteResponse")]
-        System.Threading.Tasks.Task<System.IO.Stream> GetRouteAsync(LetsGoBiking_tc.WF.RoutingService.RouteParameters points);
+        LetsGoBiking_tc.WF.RoutingService.GeoJson GetRoute(LetsGoBiking_tc.WF.RoutingService.JCDPosition[] positions);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBikeRoutingService/Geocode", ReplyAction="http://tempuri.org/IBikeRoutingService/GeocodeResponse")]
-        System.IO.Stream Geocode(LetsGoBiking_tc.WF.RoutingService.GeocodeParameters geo);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBikeRoutingService/Geocode", ReplyAction="http://tempuri.org/IBikeRoutingService/GeocodeResponse")]
-        System.Threading.Tasks.Task<System.IO.Stream> GeocodeAsync(LetsGoBiking_tc.WF.RoutingService.GeocodeParameters geo);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBikeRoutingService/GetRoute", ReplyAction="http://tempuri.org/IBikeRoutingService/GetRouteResponse")]
+        System.Threading.Tasks.Task<LetsGoBiking_tc.WF.RoutingService.GeoJson> GetRouteAsync(LetsGoBiking_tc.WF.RoutingService.JCDPosition[] positions);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -573,6 +1349,14 @@ namespace LetsGoBiking_tc.WF.RoutingService {
             return base.Channel.GetStationsAsync();
         }
         
+        public LetsGoBiking_tc.WF.RoutingService.Station[] GetStationsCity(string city) {
+            return base.Channel.GetStationsCity(city);
+        }
+        
+        public System.Threading.Tasks.Task<LetsGoBiking_tc.WF.RoutingService.Station[]> GetStationsCityAsync(string city) {
+            return base.Channel.GetStationsCityAsync(city);
+        }
+        
         public LetsGoBiking_tc.WF.RoutingService.Station GetStation(string city, string id) {
             return base.Channel.GetStation(city, id);
         }
@@ -581,20 +1365,36 @@ namespace LetsGoBiking_tc.WF.RoutingService {
             return base.Channel.GetStationAsync(city, id);
         }
         
-        public System.IO.Stream GetRoute(LetsGoBiking_tc.WF.RoutingService.RouteParameters points) {
-            return base.Channel.GetRoute(points);
+        public LetsGoBiking_tc.WF.RoutingService.Station FindNearestStation(string latitude, string longitude) {
+            return base.Channel.FindNearestStation(latitude, longitude);
         }
         
-        public System.Threading.Tasks.Task<System.IO.Stream> GetRouteAsync(LetsGoBiking_tc.WF.RoutingService.RouteParameters points) {
-            return base.Channel.GetRouteAsync(points);
+        public System.Threading.Tasks.Task<LetsGoBiking_tc.WF.RoutingService.Station> FindNearestStationAsync(string latitude, string longitude) {
+            return base.Channel.FindNearestStationAsync(latitude, longitude);
         }
         
-        public System.IO.Stream Geocode(LetsGoBiking_tc.WF.RoutingService.GeocodeParameters geo) {
-            return base.Channel.Geocode(geo);
+        public LetsGoBiking_tc.WF.RoutingService.Station[] FindStationsAround(string latitude, string longitude, string radius) {
+            return base.Channel.FindStationsAround(latitude, longitude, radius);
         }
         
-        public System.Threading.Tasks.Task<System.IO.Stream> GeocodeAsync(LetsGoBiking_tc.WF.RoutingService.GeocodeParameters geo) {
-            return base.Channel.GeocodeAsync(geo);
+        public System.Threading.Tasks.Task<LetsGoBiking_tc.WF.RoutingService.Station[]> FindStationsAroundAsync(string latitude, string longitude, string radius) {
+            return base.Channel.FindStationsAroundAsync(latitude, longitude, radius);
+        }
+        
+        public LetsGoBiking_tc.WF.RoutingService.JCDPosition GetPosition(string address) {
+            return base.Channel.GetPosition(address);
+        }
+        
+        public System.Threading.Tasks.Task<LetsGoBiking_tc.WF.RoutingService.JCDPosition> GetPositionAsync(string address) {
+            return base.Channel.GetPositionAsync(address);
+        }
+        
+        public LetsGoBiking_tc.WF.RoutingService.GeoJson GetRoute(LetsGoBiking_tc.WF.RoutingService.JCDPosition[] positions) {
+            return base.Channel.GetRoute(positions);
+        }
+        
+        public System.Threading.Tasks.Task<LetsGoBiking_tc.WF.RoutingService.GeoJson> GetRouteAsync(LetsGoBiking_tc.WF.RoutingService.JCDPosition[] positions) {
+            return base.Channel.GetRouteAsync(positions);
         }
     }
 }

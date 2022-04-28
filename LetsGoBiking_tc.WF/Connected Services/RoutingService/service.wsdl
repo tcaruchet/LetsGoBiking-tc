@@ -5,8 +5,7 @@
       <xsd:import namespace="http://tempuri.org/" />
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/LetsGoBiking_tc.RoutingWCF.Models" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/LetsGoBiking_tc.RoutingWCF.Services.Interfaces" />
-      <xsd:import namespace="http://schemas.microsoft.com/Message" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IBikeRoutingService_GetStations_InputMessage">
@@ -15,11 +14,35 @@
   <wsdl:message name="IBikeRoutingService_GetStations_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetStationsResponse" />
   </wsdl:message>
+  <wsdl:message name="IBikeRoutingService_GetStationsCity_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetStationsCity" />
+  </wsdl:message>
+  <wsdl:message name="IBikeRoutingService_GetStationsCity_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetStationsCityResponse" />
+  </wsdl:message>
   <wsdl:message name="IBikeRoutingService_GetStation_InputMessage">
     <wsdl:part name="parameters" element="tns:GetStation" />
   </wsdl:message>
   <wsdl:message name="IBikeRoutingService_GetStation_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetStationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBikeRoutingService_FindNearestStation_InputMessage">
+    <wsdl:part name="parameters" element="tns:FindNearestStation" />
+  </wsdl:message>
+  <wsdl:message name="IBikeRoutingService_FindNearestStation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FindNearestStationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBikeRoutingService_FindStationsAround_InputMessage">
+    <wsdl:part name="parameters" element="tns:FindStationsAround" />
+  </wsdl:message>
+  <wsdl:message name="IBikeRoutingService_FindStationsAround_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FindStationsAroundResponse" />
+  </wsdl:message>
+  <wsdl:message name="IBikeRoutingService_GetPosition_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPosition" />
+  </wsdl:message>
+  <wsdl:message name="IBikeRoutingService_GetPosition_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPositionResponse" />
   </wsdl:message>
   <wsdl:message name="IBikeRoutingService_GetRoute_InputMessage">
     <wsdl:part name="parameters" element="tns:GetRoute" />
@@ -27,34 +50,49 @@
   <wsdl:message name="IBikeRoutingService_GetRoute_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetRouteResponse" />
   </wsdl:message>
-  <wsdl:message name="IBikeRoutingService_Geocode_InputMessage">
-    <wsdl:part name="parameters" element="tns:Geocode" />
-  </wsdl:message>
-  <wsdl:message name="IBikeRoutingService_Geocode_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GeocodeResponse" />
-  </wsdl:message>
   <wsdl:portType name="IBikeRoutingService">
     <wsdl:operation name="GetStations">
       <wsdl:input wsaw:Action="http://tempuri.org/IBikeRoutingService/GetStations" message="tns:IBikeRoutingService_GetStations_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IBikeRoutingService/GetStationsResponse" message="tns:IBikeRoutingService_GetStations_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="GetStationsCity">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBikeRoutingService/GetStationsCity" message="tns:IBikeRoutingService_GetStationsCity_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBikeRoutingService/GetStationsCityResponse" message="tns:IBikeRoutingService_GetStationsCity_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="GetStation">
       <wsdl:input wsaw:Action="http://tempuri.org/IBikeRoutingService/GetStation" message="tns:IBikeRoutingService_GetStation_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IBikeRoutingService/GetStationResponse" message="tns:IBikeRoutingService_GetStation_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="FindNearestStation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBikeRoutingService/FindNearestStation" message="tns:IBikeRoutingService_FindNearestStation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBikeRoutingService/FindNearestStationResponse" message="tns:IBikeRoutingService_FindNearestStation_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="FindStationsAround">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBikeRoutingService/FindStationsAround" message="tns:IBikeRoutingService_FindStationsAround_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBikeRoutingService/FindStationsAroundResponse" message="tns:IBikeRoutingService_FindStationsAround_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPosition">
+      <wsdl:input wsaw:Action="http://tempuri.org/IBikeRoutingService/GetPosition" message="tns:IBikeRoutingService_GetPosition_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IBikeRoutingService/GetPositionResponse" message="tns:IBikeRoutingService_GetPosition_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="GetRoute">
       <wsdl:input wsaw:Action="http://tempuri.org/IBikeRoutingService/GetRoute" message="tns:IBikeRoutingService_GetRoute_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IBikeRoutingService/GetRouteResponse" message="tns:IBikeRoutingService_GetRoute_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="Geocode">
-      <wsdl:input wsaw:Action="http://tempuri.org/IBikeRoutingService/Geocode" message="tns:IBikeRoutingService_Geocode_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IBikeRoutingService/GeocodeResponse" message="tns:IBikeRoutingService_Geocode_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IBikeRoutingService" type="tns:IBikeRoutingService">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetStations">
       <soap:operation soapAction="http://tempuri.org/IBikeRoutingService/GetStations" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStationsCity">
+      <soap:operation soapAction="http://tempuri.org/IBikeRoutingService/GetStationsCity" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -71,8 +109,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetRoute">
-      <soap:operation soapAction="http://tempuri.org/IBikeRoutingService/GetRoute" style="document" />
+    <wsdl:operation name="FindNearestStation">
+      <soap:operation soapAction="http://tempuri.org/IBikeRoutingService/FindNearestStation" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -80,8 +118,26 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="Geocode">
-      <soap:operation soapAction="http://tempuri.org/IBikeRoutingService/Geocode" style="document" />
+    <wsdl:operation name="FindStationsAround">
+      <soap:operation soapAction="http://tempuri.org/IBikeRoutingService/FindStationsAround" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPosition">
+      <soap:operation soapAction="http://tempuri.org/IBikeRoutingService/GetPosition" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRoute">
+      <soap:operation soapAction="http://tempuri.org/IBikeRoutingService/GetRoute" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

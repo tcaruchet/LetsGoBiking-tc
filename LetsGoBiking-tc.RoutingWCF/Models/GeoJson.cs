@@ -48,6 +48,11 @@ namespace LetsGoBiking_tc.RoutingWCF.Models
         public double distance { get; set; }
         public double duration { get; set; }
         public List<Step> steps { get; set; }
+
+        public override string ToString()
+        {
+            return $"Distance: {distance}, Duration: {duration}, Steps: {steps}";
+        }
     }
     public class Summary
     {
@@ -63,6 +68,11 @@ namespace LetsGoBiking_tc.RoutingWCF.Models
         public string instruction { get; set; }
         public string name { get; set; }
         public List<int> way_points { get; set; }
+
+        public override string ToString()
+        {
+            return $"Instruction : {instruction}";
+        }
     }
     public class Metadata
     {

@@ -26,8 +26,7 @@
     <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="683c3d9a-3c5a-4b66-9888-21952922fe4f" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/mex" />
     <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="96433196-6418-4904-9d31-6786b111a62c" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/mex" />
     <MetadataFile FileName="LetsGoBiking_tc.RoutingWCF.Models.xsd" MetadataType="Schema" ID="efd8bff0-08d3-46e3-bdd7-bfff6b0ae1f8" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/mex" />
-    <MetadataFile FileName="LetsGoBiking_tc.RoutingWCF.Services.Interfaces.xsd" MetadataType="Schema" ID="8c23ac46-2875-431f-9170-65745a4e7255" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/mex" />
-    <MetadataFile FileName="Message.xsd" MetadataType="Schema" ID="b2a37473-fada-4908-a2e0-47d4cfc6a10a" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/mex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="6a5d5453-6781-4dd5-b3b2-453de93db306" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
