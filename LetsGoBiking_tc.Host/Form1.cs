@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Description;
@@ -71,6 +73,30 @@ namespace LetsGoBiking_tc.Host
         {
             if (isHosted)
                 host.Close();
+        }
+
+        private void BtnStartWeb_Click(object sender, EventArgs e)
+        {
+            //call cmd command to start LetsGoBiking_tc.Web server.py in ../../../LetsGoBiking_tc.Web
+            Process p = new Process();
+            ProcessStartInfo info = new ProcessStartInfo();
+            info.FileName = "cmd.exe";
+            info.RedirectStandardInput = true;
+            info.UseShellExecute = false;
+
+            p.StartInfo = info;
+            p.Start();
+
+            using (StreamWriter sw = p.StandardInput)
+            {
+                if (sw.BaseStream.CanWrite)
+                {
+                    sw.WriteLine("cd ..\\..\\..\\LetsGoBiking-tc.Web");
+                    sw.WriteLine("py ./server.py");
+                }
+            }
+
+            p.WaitForExit();
         }
     }
 }

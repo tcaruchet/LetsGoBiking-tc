@@ -72,6 +72,7 @@
             this.BtnStartWeb.TabIndex = 3;
             this.BtnStartWeb.Text = "Démarrer \r\nSite Web";
             this.BtnStartWeb.UseVisualStyleBackColor = false;
+            this.BtnStartWeb.Click += new System.EventHandler(this.BtnStartWeb_Click);
             // 
             // BtnStartWF
             // 
