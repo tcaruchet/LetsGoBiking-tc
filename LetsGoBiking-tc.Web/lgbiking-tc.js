@@ -86,65 +86,57 @@ $(document).ready(function () {
      });
    });
 
+
 function PathComputing(e) {
     e.preventDefault()
     var lat, lng;
 
     var addrFrom = document.querySelector("#locationOrigin").value.replaceAll(" ", "+")
-    var lat = 0
-    var lng = 0
-    //if addrFrom is empty, get current position
     if (addrFrom === "") {
-        if (navigator.geolocation) {
-            //get current position from navigator.geolocation
-            //TODO lat lng toujours à 0
-            navigator.geolocation.getCurrentPosition(function (position) {
-                lat = position.coords.latitude;
-                lng = position.coords.longitude;
-                console.log("Lat: " + lat + " Long: " + lng);
-                CenterMap(lng, lat);
-            });
-
-        } else {
-            alert("Geolocation is not supported by this browser. PLease enter a Start Address");
-            return;
-        }
+        alert("Please enter a Departure Address");
+        $("#submit").attr('disabled', false);
+        $("#submit").html('Je pars !');
+        return;
     }
 
     var addrTo = document.querySelector("#locationDest").value.replaceAll(" ", "+")
     if (addrTo === "") {
         alert("Please enter a Destination Address");
+        $("#submit").attr('disabled', false);
+        $("#submit").html('Je pars !');
         return;
     }
-    if(lat === 0 && lng === 0){
-        $.ajax({
-            url: "http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/rest/Position/" + addrFrom,
-            type: "GET",
-            success: function (data) {
-                if((data === undefined || data === null || data === "") && (lat === 0 && lng === 0)) {
-                    alert("Adresse de départ non trouvée")
-                }
-                else{
-                    if (lat === 0 && lng === 0) {
-                        lng = data["longitude"]
-                        lat = data["latitude"]
-                    }
-                }
-                
-            },
-            error: function (data) {
-                alert("Erreur lors de la requête pour chercher l'adresse de départ.")
+    $.ajax({
+        url: "http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/rest/Position/" + addrFrom,
+        type: "GET",
+        success: function (data) {
+            if((data === undefined || data === null || data === "")) {
+                alert("Adresse de départ non trouvée")
                 $("#submit").attr('disabled', false);
                 $("#submit").html('Je pars !');
+                return;
             }
-        });
-    }
+            else{
+                lng = data["longitude"]
+                lat = data["latitude"]
+            }
+            
+        },
+        error: function (data) {
+            alert("Erreur lors de la requête pour chercher l'adresse de départ.")
+            $("#submit").attr('disabled', false);
+            $("#submit").html('Je pars !');
+        }
+    });
     $.ajax({
         url: "http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/rest/Position/" + addrTo,
         type: "GET",
         success: function (data) {
             if(data === undefined || data === null || data === "") {
                 alert("Adresse d'arrivée non trouvée")
+                $("#submit").attr('disabled', false);
+                $("#submit").html('Je pars !');
+                return;
             }
             else{
                 lngTo = data["longitude"]
@@ -180,7 +172,7 @@ function addMarkers(currentPositionMap, distance){
     //clearAllLayers()
     //call ajax ttp://localhost:5157/api/LGBiking/Stations/Around/addrFrom/addrTo
     $.ajax({
-        url: "http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/rest/Stations/Around/" + currentPositionMap[0] + "/" + currentPositionMap[1] + "/" + distance*1.5,
+        url: "http://localhost:8733/Design_Time_Addresses/LetsGoBiking_tc.RoutingWCF/BikeRoutingService/rest/Stations/Around/" + currentPositionMap[1] + "/" + currentPositionMap[0] + "/" + distance,
         type: "GET",
         success: function (data) {
             if(data === undefined || data === []) {
@@ -290,16 +282,15 @@ function computeRoute(addrFrom, addrTo) {
                 // features[2] go from station end to addrTo walking
                 drawLine(data["features"][2]["geometry"]["coordinates"], '#7700B3')
                 totalDistance = data["features"][0]["properties"]["summary"]["distance"] + data["features"][1]["properties"]["summary"]["distance"] + data["features"][2]["properties"]["summary"]["distance"]
+                addMarkers(data["features"][1]["geometry"]["coordinates"][0], totalDistance)
+                addMarkers(data["features"][2]["geometry"]["coordinates"][0], totalDistance)
             }
             else{
                 //draw only cycling
                 drawLine(data["features"][0]["geometry"]["coordinates"], '#00B3E6')
                 totalDistance = data["features"][0]["properties"]["summary"]["distance"]
+                addMarkers(data["features"][2]["geometry"]["coordinates"][0], totalDistance)
             }
-
-            //get current position center of Map
-            addMarkers(addrFrom, totalDistance)
-
         },
         error: function (err) {
             console.log(err)

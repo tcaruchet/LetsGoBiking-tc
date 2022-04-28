@@ -27,5 +27,10 @@ namespace LetsGoBiking_tc.RoutingWCF.Models
         {
             return (degrees * Math.PI) / 180;
         }
+
+        public override string ToString()
+        {
+            return $"{latitude}, {longitude}";
+        }
     }
 }

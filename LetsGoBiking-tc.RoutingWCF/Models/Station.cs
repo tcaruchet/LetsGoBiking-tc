@@ -24,6 +24,11 @@ namespace LetsGoBiking_tc.RoutingWCF.Models
     {
         [DataMember] public StandAvailability availabilities { get; set; }
         [DataMember] public int capacity { get; set; }
+
+        public override string ToString()
+        {
+            return $"{availabilities.bikes}/{capacity}";
+        }
     }
 
     [DataContract]
