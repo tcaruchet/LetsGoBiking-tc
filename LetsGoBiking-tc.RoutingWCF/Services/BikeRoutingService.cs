@@ -177,7 +177,16 @@ namespace LetsGoBiking_tc.RoutingWCF.Services
 
         private async Task<GeoJson> GetRouteFull(string type, JCDPosition[] positions)
         {
-            return JsonConvert.DeserializeObject<GeoJson>(await OpenRouteAPI.PostDirections(positions, type));
+            return JsonConvert.DeserializeObject<GeoJson>(await OpenRouteAPI.PostDirections(positions, type),
+                new JsonSerializerSettings
+                {
+                    DateFormatString = "dd/MM/yyyy HH:mm:ss",
+                    DateTimeZoneHandling = DateTimeZoneHandling.Utc,
+                    NullValueHandling = NullValueHandling.Ignore,
+                    MissingMemberHandling = MissingMemberHandling.Ignore,
+                    DefaultValueHandling = DefaultValueHandling.Ignore,
+                    Formatting = Formatting.Indented
+                });
         }
 
         private async Task<GeoJson> GetRouteWalking(JCDPosition[] positions)

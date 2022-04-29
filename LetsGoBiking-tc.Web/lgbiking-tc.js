@@ -294,9 +294,10 @@ function computeRoute(addrFrom, addrTo) {
                 totalDistance = data["features"][0]["properties"]["summary"]["distance"]
                 addMarkers(data["features"][0]["geometry"]["coordinates"][0], totalDistance)
             }
+            $("#distance").html(totalDistance/1000 + " km")
         },
         error: function (err) {
-            console.log(err)
+            alert("Erreur lors de la requête pour calculer l'itinéraire.")
         },
         complete: function () {
             $("#submit").attr('disabled', false);
