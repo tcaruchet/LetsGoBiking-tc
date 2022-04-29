@@ -271,7 +271,7 @@ function computeRoute(addrFrom, addrTo) {
 
             var totalDistance = 0
             
-            if(data["type"] === "foot-walking"){
+            if(data["type"] === "foot-walking" || data["type"] === "FeatureCollection"){
                 //draw only foot walking
                 drawLine(data["features"][0]["geometry"]["coordinates"], '#7700B3')
                 totalDistance = data["features"][0]["properties"]["summary"]["distance"]
